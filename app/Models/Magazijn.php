@@ -6,13 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Magazijn extends Model
 {
-    protected $table = 'magazijn';   // pas aan als jouw tabel anders heet
-    protected $primaryKey = 'Id';    // jouw PK
+    protected $table = 'Magazijn';
+    protected $primaryKey = 'Id';
     public $timestamps = false;
 
     public function product()
-{
-    return $this->belongsTo(Product::class, 'ProductId', 'Id');
-}
-
+    {
+        return $this->belongsTo(Product::class, 'ProductId', 'Id');
+    }
 }

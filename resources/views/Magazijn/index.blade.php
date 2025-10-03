@@ -1,53 +1,68 @@
-@extends('layouts.app')
+{{-- resources/views/Magazijn/index.blade.php --}}
 
-@section('title', 'Magazijn')
-
-@section('content')
-    <h1 style="margin:0 0 12px">Magazijn</h1>
-
-    {{-- Zoekformulier --}}
-    <form method="get" class="mb-3">
-        <input type="text" name="q" value="{{ $zoek }}" placeholder="Zoek (barcode, EAN, naam)..." />
-        <button class="btn" type="submit">Zoeken</button>
-    </form>
-
-    <p class="mb-3" style="color:#666">
-        Gesorteerd op: <strong>{{ $orderCol }}</strong>
-    </p>
-
-    <table>
-        <thead>
+<table class="table table-hover align-middle">
+    <thead>
         <tr>
-            <th>Id</th>
-            <th>ProductId</th>
-            {{-- voeg hier kolommen toe die je echt in je DB hebt --}}
-            @if(isset($items[0]) && isset($items[0]->Barcode)) <th>Barcode</th> @endif
-            @if(isset($items[0]) && isset($items[0]->EAN))     <th>EAN</th>     @endif
-            @if(isset($items[0]) && isset($items[0]->Naam))    <th>Naam</th>    @endif
-            @if(isset($items[0]) && isset($items[0]->VerpakkingsEenheid)) <th>VerpakkingsEenheid</th> @endif
-            @if(isset($items[0]) && isset($items[0]->AantalAanwezig))     <th>Aantal aanwezig</th>   @endif
+            <th>Barcode</th>
+            <th>Naam</th>
+            <th>Verpakkingseenheid</th>
+            <th>Aantal aanwezig</th>
+            <th class="text-center">Allergenen Info</th>
+            <th class="text-center">Leverantie Info</th>
         </tr>
-        </thead>
-        <tbody>
-        @forelse ($items as $row)
-            <tr>
-                <td>{{ $row->Id }}</td>
-                <td>{{ $row->ProductId }}</td>
-                @isset($row->Barcode)             <td>{{ $row->Barcode }}</td> @endisset
-                @isset($row->EAN)                 <td>{{ $row->EAN }}</td> @endisset
-                @isset($row->Naam)                <td>{{ $row->Naam }}</td> @endisset
-                @isset($row->VerpakkingsEenheid)  <td>{{ $row->VerpakkingsEenheid }}</td> @endisset
-                @isset($row->AantalAanwezig)      <td>{{ $row->AantalAanwezig }}</td> @endisset
-            </tr>
-        @empty
-            <tr>
-                <td colspan="8" style="text-align:center;color:#777">Geen resultaten</td>
-            </tr>
-        @endforelse
-        </tbody>
-    </table>
+    </thead>
+    <tbody>
+    @foreach($items as $row)
+        @php
+            $p = $row->product;
+            $hasAllergen = $p && $p->allergenen && $p->allergenen->isNotEmpty();
+        @endphp
+        <tr>
+            <td>{{ $p->Barcode ?? '—' }}</td>
+            <td>{{ $p->Naam ?? '—' }}</td>
+            <td>{{ number_format($row->VerpakkingsEenheid, 2) }}</td>
+            <td>{{ $row->AantalAanwezig }}</td>
 
-    <div class="mb-3" style="margin-top:12px">
-        {{ $items->links() }}
-    </div>
-@endsection
+            {{-- Allergenen: ✓ / ✗ + optionele modal --}}
+            <td class="text-center">
+                @if($hasAllergen)
+                    <button class="btn btn-outline-success btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#al-{{ $row->id }}">
+                        ✓ Bekijk
+                    </button>
+
+                    <div class="modal fade" id="al-{{ $row->id }}" tabindex="-1" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title">Allergenen — {{ $p->Naam }}</h5>
+                            <button class="btn-close" data-bs-dismiss="modal"></button>
+                          </div>
+                          <div class="modal-body">
+                            <ul class="mb-0">
+                              @foreach($p->allergenen as $al)
+                                  <li>{{ $al->Naam }}</li>
+                              @endforeach
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                @else
+                    <span class="badge text-bg-danger">✗</span>
+                @endif
+            </td>
+
+            {{-- Leverantie Info: vul in zoals jouw leverancierrelation heet --}}
+            <td class="text-center">
+                {{-- voorbeeld/placeholder --}}
+                <span class="text-muted">?</span>
+            </td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>
+
+{{ $items->links() }}
+

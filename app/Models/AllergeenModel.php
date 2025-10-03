@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class AllergeenModel extends Model
 { 
-    protected $table = 'allergenen'; // laten zoals je had
-    protected $fillable = ['name', 'description'];
+    protected $table = 'Allergeen'; // correctie: dit moet gelijk zijn aan je DB
+    protected $fillable = ['Naam', 'Omschrijving'];
     public $timestamps = false;
 
     public function sp_GetAllAllergenen()

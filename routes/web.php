@@ -5,6 +5,7 @@ use Livewire\Volt\Volt;
 
 // Controllers
 use App\Http\Controllers\AllergeenController;
+use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductDeliveryController;
 
@@ -25,7 +26,7 @@ Route::put('/Allergeen/{id}', [AllergeenController::class, 'update'])->name('all
 /**
  * ✅ Magazijn (alleen dit stuk aangepast zodat het werkt met het Magazijn model)
  */
-Route::get('/magazijn', [WarehouseController::class, 'index'])->name('warehouse.index');
+Route::get('/magazijn', [MagazijnController::class, 'index'])->name('warehouse.index');
 
 /**
  * Dashboard (zoals je had)
