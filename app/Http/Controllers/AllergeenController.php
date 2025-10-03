@@ -27,12 +27,12 @@ class AllergeenController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'Naam' => 'required|string|max:30',
-            'Omschrijving' => 'required|string|max:80',
+            'name' => 'required|string|max:30',
+            'description' => 'required|string|max:80',
         ]);
 
         DB::select('CALL sp_CreateAllergeen(?, ?)', [
-            $data['Naam'], $data['Omschrijving']
+            $data['name'], $data['description']
         ]);
 
         return redirect()->route('allergeen.index')
