@@ -9,6 +9,9 @@ use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductDeliveryController;
 
+// ➕ NIEUW: deze regel toevoegen
+use App\Http\Controllers\LeverantieInfoController;
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -24,22 +27,26 @@ Route::get('/Allergeen/{id}/edit', [AllergeenController::class, 'edit'])->name('
 Route::put('/Allergeen/{id}', [AllergeenController::class, 'update'])->name('allergeen.update');
 
 /**
- * ✅ Magazijn (alleen dit stuk aangepast zodat het werkt met het Magazijn model)
+ * ✅ Magazijn
  */
 Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
 
+/**
+ * ➕ NIEUW: route naar de leverantie-detailpagina
+ * (laat je Product model ongewijzigd; Laravel bindt {product} automatisch)
+ */
 Route::get('/producten/{product}/leverantie-info', [LeverantieInfoController::class, 'show'])
     ->name('leverantie.info.show');
 
 /**
- * Dashboard (zoals je had)
+ * Dashboard
  */
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 /**
- * Instellingen via Volt (zoals je had)
+ * Instellingen via Volt
  */
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');
