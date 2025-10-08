@@ -6,10 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Allergeen extends Model
 {
-    // Zet dit exact zoals jouw DB de tabel noemt
-    protected $table = 'Allergeen';   // jouw CREATE TABLE heet zo
-    protected $primaryKey = 'Id';     // in jouw schema is PK 'Id'
+    protected $table = 'Allergeen';
+    protected $primaryKey = 'Id';
     public $timestamps = false;
 
-    protected $fillable = ['Naam', 'Omschrijving'];
+    protected $fillable = [
+        'Naam',
+    ];
+
+    public function products()
+    {
+        return $this->belongsToMany(
+            Product::class,
+            'ProductAllergeen',
+            'AllergeenId',
+            'ProductId'
+        );
+    }
 }

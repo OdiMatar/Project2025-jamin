@@ -26,7 +26,10 @@ Route::put('/Allergeen/{id}', [AllergeenController::class, 'update'])->name('all
 /**
  * ✅ Magazijn (alleen dit stuk aangepast zodat het werkt met het Magazijn model)
  */
-Route::get('/magazijn', [MagazijnController::class, 'index'])->name('warehouse.index');
+Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.index');
+
+Route::get('/producten/{product}/leverantie-info', [LeverantieInfoController::class, 'show'])
+    ->name('leverantie.info.show');
 
 /**
  * Dashboard (zoals je had)

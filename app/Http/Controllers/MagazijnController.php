@@ -7,19 +7,22 @@ use Illuminate\Http\Request;
 
 class MagazijnController extends Controller
 {
- public function index()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
 {
-    $items = \App\Models\Magazijn::query()
+    $magazijn = \App\Models\Magazijn::query()
         ->with([
-            'product:id,Naam,Barcode',          // basis product velden
-            'product.allergenen:id,Naam'        // << relatie die we gaan tonen
+            'product:Id,Naam,Barcode', // <-- allergenen tijdelijk weg
         ])
-        ->select('id','ProductId','VerpakkingsEenheid','AantalAanwezig')
-        ->paginate(25);
+        ->select('Id','ProductId','VerpakkingsEenheid','AantalAanwezig')
+        ->paginate(25)
+        ->withQueryString();
 
     return view('Magazijn.index', [
-        'items' => $items,
         'title' => 'Magazijn',
+        'magazijn' => $magazijn,
     ]);
 }
 }

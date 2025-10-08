@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Models;
 
@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Leverancier extends Model
 {
-    protected $table = 'Leverancier';
+    protected $table = 'Leverancier'; // omdat je tabel met hoofdletter is aangemaakt
     protected $primaryKey = 'Id';
-    public $timestamps = true;
-
-    const CREATED_AT = 'DatumAangemaakt';
-    const UPDATED_AT = 'DatumGewijzigd';
+    public $timestamps = false; // je gebruikt eigen datumkolommen
 
     protected $fillable = ['Naam','ContactPersoon','LeverancierNummer','Mobiel','IsActief','Opmerkingen'];
+
+    public function producten()
+    {
+        return $this->hasMany(Product::class, 'leverancier_id', 'Id');
+    }
 }

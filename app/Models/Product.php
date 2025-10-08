@@ -6,19 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    // <<< pas deze 3 regels aan naar jouw échte tabel/kolom-namen >>>
-    protected $table = 'Product';     // of 'producten' – exact zoals je tabel heet
+    protected $table = 'Product';
     protected $primaryKey = 'Id';
-    public $timestamps = false;       // je hebt geen created_at/updated_at
+    public $timestamps = false;
 
-    // (optioneel) kolommen die je invult
-    protected $fillable = ['Naam', 'Barcode'];
+    protected $fillable = [
+        'Naam',
+        'Barcode',
+        'LeverancierId',
+    ];
 
-    // relaties (optioneel)
+    public function magazijn()
+    {
+        return $this->hasMany(Magazijn::class, 'ProductId', 'Id');
+    }
+
     public function allergenen()
     {
-        // pivot heet bij jou: ProductPerAllergeen met kolommen ProductId / AllergeenId
-        return $this->belongsToMany(AllergeenModel::class,
-            'ProductPerAllergeen', 'ProductId', 'AllergeenId');
+        // Pas zo nodig de pivot-tabel/kolommen aan je schema aan
+        return $this->belongsToMany(
+            Allergeen::class,
+            'ProductAllergeen',   // pivot
+            'ProductId',          // fk naar Product in pivot
+            'AllergeenId'         // fk naar Allergeen in pivot
+        );
     }
 }
