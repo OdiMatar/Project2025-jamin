@@ -11,138 +11,175 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
   <style>
-    /* ======================================================================
-       Magazijn — verzorgd UI-thema
-       ======================================================================
-       Inhoud: tokens → basis → layout → topbar → cards → tabel → knoppen
-               → helpers → responsive
-    */
+    /* =========================================================
+       Magazijn – matcht het thema van Allergenen (blauw/violet)
+       en behoudt klikbaarheid van alle elementen.
+       ========================================================= */
 
-    /* ---------- Design tokens ---------- */
+    /* --- Tokens --- */
     :root{
-      /* oppervlakken */
-      --bg:           #f6f7fb;
-      --surface:      #ffffff;
-      --surface-2:    #f9fafc;
+      --surface:#ffffff;
+      --surface-2:#f9fafc;
 
-      /* tekst & randen */
-      --text:         #0f172a;  /* slate-900 */
-      --muted:        #64748b;  /* slate-500 */
-      --border:       #e5e7eb;  /* gray-200 */
+      --text:#0f172a;
+      --muted:#667085;
+      --border:rgba(2,6,23,.10);
 
-      /* merk (zacht blauw + accent lila) */
-      --primary:      #2563eb;  /* blue-600 */
-      --primary-700:  #1d4ed8;  /* blue-700 */
-      --accent:       #7c3aed;  /* violet-600 (heel subtiel gebruikt) */
-      --ring:         rgba(37, 99, 235, .28);
+      --brand-1:#4f46e5; /* indigo-600 */
+      --brand-2:#7c3aed; /* violet-600 */
+      --ring:rgba(79,70,229,.28);
 
-      /* look & feel */
-      --thead:        #f3f4f6;
-      --shadow:       0 10px 26px rgba(2, 6, 23, .06);
-      --radius:       16px;
-      --radius-sm:    12px;
+      --thead-from:#f6f7ff;
+      --thead-to:#eef2ff;
+      --row-hover:#f5f6ff;
+
+      --shadow-soft:0 14px 34px rgba(2,6,23,.10);
+      --shadow-card:0 12px 26px rgba(2,6,23,.08);
+
+      --radius-xl:22px;
+      --radius:14px;
+      --radius-sm:10px;
     }
 
-    /* ---------- Basis ---------- */
+    /* --- Basis + achtergrond --- */
     html,body{height:100%}
     body{
       margin:0; color:var(--text);
       background:
-        radial-gradient(1000px 420px at 20% -10%, rgba(124,58,237,.06), transparent 60%),
-        radial-gradient(900px 380px at 110% 0%, rgba(37,99,235,.07), transparent 60%),
-        var(--bg);
+        radial-gradient(1200px 520px at 12% -10%, rgba(124,58,237,.12), transparent 60%),
+        radial-gradient(1100px 520px at 106% 0%, rgba(34,211,238,.10), transparent 60%),
+        linear-gradient(180deg, #f7f8fc, #eef2ff);
       -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
     a{text-decoration:none}
-    :focus-visible{outline:.25rem solid var(--ring); outline-offset:2px}
+    :focus-visible{outline:.26rem solid var(--ring); outline-offset:2px}
 
-    /* ---------- Layout ---------- */
-    .wrap{max-width:1200px; margin:2rem auto; padding:0 1rem}
+    /* Blobs (decoratie) — nooit klikken blokkeren */
+    .blob{
+      position:fixed; inset:-12rem auto auto -12rem; width:28rem; height:28rem;
+      background: radial-gradient(circle at 40% 40%, rgba(167,139,250,.18), transparent 60%);
+      filter: blur(56px); z-index:-1; animation: float 16s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+    .blob.b2{
+      inset:auto -12rem -10rem auto;
+      background: radial-gradient(circle at 60% 60%, rgba(34,211,238,.16), transparent 60%);
+      animation-delay:2.2s; pointer-events:none;
+    }
+    @keyframes float { to { transform: translate(22px,28px) scale(1.045); } }
 
-    /* ---------- Topbar ---------- */
-    .topbar{
+    /* --- Topbar (chips zoals Allergenen) --- */
+    .app-header{ max-width:1120px; margin:1.25rem auto 0; padding:0 1rem; }
+    .top-nav{
       display:flex; justify-content:flex-end; gap:.6rem;
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:.75rem 1rem;
+      backdrop-filter:saturate(160%) blur(10px);
+      background:rgba(255,255,255,.82);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-card);
+      padding:.65rem .8rem;
     }
-    .chip{
-      display:inline-flex; align-items:center; gap:.5rem;
-      padding:.5rem .9rem; border:1px solid var(--border);
-      border-radius:999px; background:#fff; color:var(--text);
-      transition:transform .16s, color .16s, border-color .16s;
-      font-weight:500;
+    .nav-link-chip{
+      display:inline-flex; align-items:center; gap:.55rem;
+      padding:.52rem .95rem; border:1px solid rgba(2,6,23,.10);
+      border-radius:999px; color:#111827; background:#fff;
+      transition:transform .16s, border-color .16s, color .16s, box-shadow .16s;
+      font-weight:600;
     }
-    .chip:hover{ transform:translateY(-1px); color:var(--primary-700); border-color:#c7d2fe }
-    .chip i{ font-size:1rem }
+    .nav-link-chip:hover{
+      transform:translateY(-1px);
+      border-color:#c7d2fe; color:#1f3ad9;
+      box-shadow:0 6px 18px rgba(31,58,217,.12);
+    }
+    .nav-link-chip:focus{ box-shadow:0 0 0 .26rem var(--ring) }
 
-    /* ---------- Cards ---------- */
-    .card-root{
-      background:var(--surface); border:1px solid var(--border);
-      border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;
+    /* --- Layout + container (card) --- */
+    .main-wrap{ max-width:1120px; margin:1.25rem auto 3rem; padding:0 1rem; }
+    .card-shell{
+      border:1px solid var(--border);
+      border-radius:var(--radius-xl);
+      background:var(--surface);
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+      position:relative;
+      z-index:0; /* eigen stacking-context */
     }
-    .card-head{
-      padding:1.25rem 1.25rem; border-bottom:1px solid var(--border);
-      background:linear-gradient(180deg, #ffffff 0%, var(--surface-2) 100%);
-    }
-    .card-body{ padding:1.25rem }
-    .title{ margin:0; font-weight:800; letter-spacing:.2px }
-    .subtitle{ color:var(--muted) }
 
-    /* ---------- Tabel ---------- */
-    .table-wrap{ border:1px solid var(--border); border-radius:var(--radius-sm); overflow:hidden }
+    /* --- Hero (blauwe kop) --- */
+    .card-head.hero{
+      position:relative; color:#fff;
+      background: radial-gradient(120% 160% at 110% -10%, rgba(167,139,250,.35), transparent 40%),
+                  linear-gradient(135deg, var(--brand-1) 0%, var(--brand-2) 100%);
+      padding:2rem 1.6rem 1.4rem;
+      border-bottom:0;
+      overflow:hidden;           /* clip binnen de card */
+    }
+    .card-head.hero::after{
+      content:""; position:absolute; inset:-40% -12% auto auto; width:44%; height:220%;
+      background: radial-gradient(closest-side, rgba(255,255,255,.25), transparent 65%);
+      transform: rotate(-18deg);
+      pointer-events:none;       /* <<< voorkomt klikblokkade */
+    }
+    .hero-title{ font-weight:900; letter-spacing:.2px; margin:0; position:relative; z-index:1 }
+    .hero-sub{ opacity:.95; font-size:1.05rem; position:relative; z-index:1 }
+
+    .card-body{ padding:1.35rem; position:relative; z-index:1 }
+
+    /* --- Tabel --- */
+    .table-wrap{ border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; position:relative; z-index:1 }
     table.table{ margin:0 }
     thead th{
-      background:var(--thead); border-bottom:1px solid var(--border);
-      font-weight:700; color:#111827;
+      background: linear-gradient(180deg, var(--thead-from) 0%, var(--thead-to) 100%);
+      border-bottom:1px solid var(--border); font-weight:800; color:#111827;
+      position:sticky; top:0; z-index:2;
     }
     tbody td{ vertical-align:middle }
-    tbody tr:hover{ background:#f8fafc }
+    tbody tr:hover{ background:var(--row-hover) }
 
-    /* ---------- Knoppen / iconen ---------- */
-    .btn-outline-primary, .btn-outline-warning{ border-radius:999px }
-
-    /* Vraagtekenknop – rond, helder blauw (zoals je schets) */
+    /* --- Knoppen --- */
+    .btn-outline-warning{ border-radius:999px }
     .btn-q{
       --size:2rem;
       width:var(--size); height:var(--size);
       display:inline-flex; align-items:center; justify-content:center;
       border-radius:50%;
-      border:1.8px solid var(--primary);
-      color:var(--primary); background:#fff;
+      border:1.8px solid #4f46e5;
+      color:#4f46e5; background:#fff;
       font-weight:700; line-height:1;
       transition:transform .16s, box-shadow .16s, background-color .16s, color .16s;
+      position:relative; z-index:1;   /* blijft boven decoratieve lagen */
     }
-    .btn-q:hover{ transform:translateY(-1px); background:#eef2ff; box-shadow:0 0 0 .18rem rgba(37,99,235,.12) }
-    .btn-q:focus{ outline:none; box-shadow:0 0 0 .25rem var(--ring) }
+    .btn-q:hover{ transform:translateY(-1px); background:#eef2ff; box-shadow:0 0 0 .18rem rgba(79,70,229,.12) }
     .btn-q.is-disabled{ border-color:#cbd5e1; color:#94a3b8; background:#f8fafc; cursor:not-allowed }
 
-    /* ---------- Helpers ---------- */
+    /* Helpers */
     .mono{ font-family:ui-monospace, Menlo, Consolas, monospace }
     .muted{ color:var(--muted) }
     .dash{ color:#9aa3af }
 
-    /* ---------- Responsive ---------- */
+    /* Responsive */
     @media (max-width:576px){
-      .card-head{ padding:1rem }
       .card-body{ padding:1rem }
+      .card-head.hero{ padding:1.6rem 1rem 1.1rem }
     }
   </style>
 </head>
 <body>
+  <div class="blob"></div>
+  <div class="blob b2"></div>
 
-  {{-- Top navigatie --}}
-  <header class="wrap">
+  {{-- Top navigatie (chips) --}}
+  <header class="app-header not-has-[nav]:hidden">
     @if (Route::has('login'))
-      <nav class="topbar">
-        <a href="{{ route('allergeen.index') }}" class="chip"><i class="bi bi-grid-3x3-gap"></i><span>Allergenen</span></a>
-        <a href="{{ route('magazijn.index') }}"  class="chip"><i class="bi bi-box"></i><span>Magazijn</span></a>
+      <nav class="top-nav">
+        <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i> Allergenen</a>
+        <a href="{{ route('magazijn.index') }}"  class="nav-link-chip"><i class="bi bi-box"></i> Magazijn</a>
         @auth
-          <a href="{{ url('/dashboard') }}" class="chip"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a>
+          <a href="{{ url('/dashboard') }}" class="nav-link-chip"><i class="bi bi-speedometer2"></i> Dashboard</a>
         @else
-          <a href="{{ route('login') }}" class="chip"><i class="bi bi-door-open"></i><span>Log in</span></a>
+          <a href="{{ route('login') }}" class="nav-link-chip"><i class="bi bi-door-open"></i> Log in</a>
           @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="chip"><i class="bi bi-person-plus"></i><span>Register</span></a>
+            <a href="{{ route('register') }}" class="nav-link-chip"><i class="bi bi-person-plus"></i> Register</a>
           @endif
         @endauth
       </nav>
@@ -150,11 +187,11 @@
   </header>
 
   {{-- Hoofdinhoud --}}
-  <main class="wrap">
-    <section class="card-root">
-      <header class="card-head">
-        <h1 class="title mb-1">{{ $title ?? 'Magazijn' }}</h1>
-        <div class="subtitle">Overzicht van voorraad per product</div>
+  <main class="main-wrap">
+    <section class="card-shell">
+      <header class="card-head hero">
+        <h1 class="hero-title mb-1">{{ $title ?? 'Magazijn' }}</h1>
+        <div class="hero-sub">Overzicht van voorraad per product</div>
       </header>
 
       <div class="card-body">
@@ -181,18 +218,10 @@
                   $verpakking    = $row->VerpakkingsEenheid ?? null;
                   $aantal        = $row->AantalAanwezig ?? null;
 
-                  /* ID’s robuust bepalen (zonder model-binding afhankelijkheid) */
                   $productId     = $product?->Id ?? $product?->id ?? $row->ProductId ?? null;
-                  $leverancierId = $product?->LeverancierId ?? $product?->leverancier_id ?? $row->LeverancierId ?? null;
 
-                  $heeftAllergenen = false;                       // vervang later met echte check
-                  // IDs
-                  $productId     = $product?->Id ?? $product?->id ?? $row->ProductId ?? null;
-                  // (leverancierId mag blijven staan als je ‘m elders gebruikt)
-
-                  // ✅ Alleen productId is genoeg om door te klikken
+                  $heeftAllergenen = false;      // vervang met echte check
                   $heeftLeverantie = !empty($productId);
-
                 @endphp
 
                 <tr>
@@ -229,17 +258,17 @@
                   </td>
 
                   <td>
-                        @if($heeftLeverantie)
-                        <a href="{{ route('leverantie.info.show', ['product' => $productId]) }}"
-                          class="btn-q"
-                          title="Leverantie info"
-                          aria-label="Toon leveringsinformatie">?</a>
-                      @else
-                        <span class="btn-q is-disabled"
-                              data-bs-toggle="tooltip"
-                              data-bs-title="Geen leverantie-informatie beschikbaar"
-                              aria-label="Geen leverantie-informatie">?</span>
-                      @endif
+                    @if($heeftLeverantie)
+                      <a href="{{ route('leverantie.info.show', ['product' => $productId]) }}"
+                         class="btn-q"
+                         title="Leverantie info"
+                         aria-label="Toon leveringsinformatie">?</a>
+                    @else
+                      <span class="btn-q is-disabled"
+                            data-bs-toggle="tooltip"
+                            data-bs-title="Geen leverantie-informatie beschikbaar"
+                            aria-label="Geen leverantie-informatie">?</span>
+                    @endif
                   </td>
                 </tr>
               @empty
