@@ -2,30 +2,42 @@
 
 @section('content')
 <div class="container py-4">
-  <h1 class="h4 mb-3">Leveringsinformatie</h1>
+  <h1 class="h4 mb-4">Leveringsinformatie</h1>
 
-  {{-- Leverancier header --}}
+  {{-- Kop met leveranciergegevens --}}
   <div class="card mb-4">
-    <div class="card-body row g-3">
-      <div class="col-md-6"><b>Naam leverancier:</b> {{ $leverancier->Naam ?? '—' }}</div>
-      <div class="col-md-6"><b>Contactpersoon:</b> {{ $leverancier->ContactPersoon ?? '—' }}</div>
-      <div class="col-md-6"><b>Leverancier nummer:</b> {{ $leverancier->LeverancierNummer ?? '—' }}</div>
-      <div class="col-md-6"><b>Mobiel:</b> {{ $leverancier->Mobiel ?? '—' }}</div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-6"><strong>Naam leverancier:</strong> {{ $leverancier->Naam ?? '—' }}</div>
+        <div class="col-md-6"><strong>Contactpersoon leverancier:</strong> {{ $leverancier->ContactPersoon ?? '—' }}</div>
+        <div class="col-md-6"><strong>Leverancier nummer:</strong> {{ $leverancier->LeverancierNummer ?? '—' }}</div>
+        <div class="col-md-6"><strong>Mobiel:</strong> {{ $leverancier->Mobiel ?? '—' }}</div>
+      </div>
     </div>
   </div>
 
-  {{-- Tabel met leveringen --}}
+  {{-- Tabel / melding volgens scenario's --}}
   <div class="card">
     <div class="card-header">
-      Product: {{ $product->naam ?? $product->Naam ?? '—' }}
+      Product: {{ $product->Naam ?? $product->naam ?? '—' }}
     </div>
+
     <div class="card-body p-0">
       @if($leveringen->isEmpty())
-        <div class="p-3 text-muted">
+        {{-- Scenario_02: geen voorraad → melding + redirect na 4s --}}
+        @php
+          $verwachteText = optional(\Illuminate\Support\Carbon::parse($verwachte))->format('d-m-Y') ?? '30-04-2023';
+        @endphp
+        <div class="p-3">
           Er is van dit product op dit moment geen voorraad aanwezig,
-          de verwachte eerstvolgende levering is: —.
+          de verwachte eerstvolgende levering is: <strong>{{ $verwachteText }}</strong>.
         </div>
+
+        <script>
+          setTimeout(() => { window.location.href = "{{ route('magazijn.index') }}"; }, 4000);
+        </script>
       @else
+        {{-- Scenario_01: tabel met leveringen, oplopend op Datum laatste levering --}}
         <table class="table mb-0">
           <thead>
             <tr>
@@ -38,10 +50,10 @@
           <tbody>
             @foreach($leveringen as $lev)
               <tr>
-                <td>{{ $product->naam ?? $product->Naam }}</td>
-                <td>{{ optional($lev->datum_laatste)->format('d-m-Y') }}</td>
-                <td>{{ $lev->aantal }}</td>
-                <td>{{ optional($lev->verwachte_eerstvolgende)->format('d-m-Y') }}</td>
+                <td>{{ $product->Naam ?? $product->naam }}</td>
+                <td>{{ optional(\Illuminate\Support\Carbon::parse($lev->DatumLaatste))->format('d-m-Y') }}</td>
+                <td>{{ $lev->Aantal }}</td>
+                <td>{{ optional(\Illuminate\Support\Carbon::parse($lev->VerwachteEerstvolgende))->format('d-m-Y') }}</td>
               </tr>
             @endforeach
           </tbody>
@@ -50,6 +62,6 @@
     </div>
   </div>
 
-  <a href="{{ route('magazijn.index') }}" class="btn btn-link mt-3">← Terug naar Magazijn</a>
+  <a class="btn btn-link mt-3" href="{{ route('magazijn.index') }}">← Terug naar Magazijn</a>
 </div>
 @endsection

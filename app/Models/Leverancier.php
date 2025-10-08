@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Leverancier extends Model
 {
-    protected $table = 'Leverancier'; // omdat je tabel met hoofdletter is aangemaakt
+    protected $table = 'Leverancier';
     protected $primaryKey = 'Id';
-    public $timestamps = false; // je gebruikt eigen datumkolommen
+    public $timestamps = false;
 
     protected $fillable = ['Naam','ContactPersoon','LeverancierNummer','Mobiel','IsActief','Opmerkingen'];
 

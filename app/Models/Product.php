@@ -10,11 +10,7 @@ class Product extends Model
     protected $primaryKey = 'Id';
     public $timestamps = false;
 
-    protected $fillable = [
-        'Naam',
-        'Barcode',
-        'LeverancierId',
-    ];
+    protected $fillable = ['Naam','Barcode','LeverancierId'];
 
     public function magazijn()
     {
@@ -23,12 +19,24 @@ class Product extends Model
 
     public function allergenen()
     {
-        // Pas zo nodig de pivot-tabel/kolommen aan je schema aan
         return $this->belongsToMany(
             Allergeen::class,
-            'ProductAllergeen',   // pivot
-            'ProductId',          // fk naar Product in pivot
-            'AllergeenId'         // fk naar Allergeen in pivot
+            'ProductAllergeen',
+            'ProductId',
+            'AllergeenId'
         );
+    }
+
+    /* ✅ NIEUW: relaties die je controller gebruikt */
+    public function leverancier()
+    {
+        // jouw FK heet LeverancierId en PK bij Leverancier is Id
+        return $this->belongsTo(Leverancier::class, 'LeverancierId', 'Id');
+    }
+
+    public function leveringen()
+    {
+        // in jouw leveringen-tabel is de FK waarschijnlijk ProductId
+        return $this->hasMany(Levering::class, 'ProductId', 'Id');
     }
 }

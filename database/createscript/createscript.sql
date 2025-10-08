@@ -279,15 +279,49 @@ INSERT INTO `ProductPerLeverancier`
 (15, 5, 11,  '2024-10-19', 60, '2024-10-26'),
 (16, 5, 12,  '2024-10-11', 45, NULL);
 
+-- Step: 08
+-- Goal: Create a new table levering
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            17-09-2025      Odi Matar			          New
+-- **********************************************************************************/
+
+CREATE TABLE IF NOT EXISTS `Levering` (
+  `Id`                        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ProductId`                 INT UNSIGNED NOT NULL,
+  `LeverancierId`             TINYINT UNSIGNED NULL,
+  `DatumLaatste`              DATE NULL,
+  `Aantal`                    INT UNSIGNED NULL,
+  `VerwachteEerstvolgende`    DATE NULL,
+  CONSTRAINT `PK_Levering_Id` PRIMARY KEY (`Id`)
+) ENGINE=InnoDB;
 
 
-
-
-
-
-
-
+-- Step: 13
+-- Goal: Fill table levering with data
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            18-09-2025      Odi Matar                   New
+-- **********************************************************************************/
 	
+
+  INSERT INTO `Levering` (`ProductId`,`LeverancierId`,`DatumLaatste`,`Aantal`,`VerwachteEerstvolgende`)
+VALUES
+(1, 1, '2025-04-10', 120, '2025-04-30'),
+(2, 1, '2025-04-12', 100, '2025-05-01'),
+(3, 1, '2025-04-15',  50, '2025-05-05'),
+(4, 2, '2025-04-18', 200, '2025-05-08'),
+(5, 2, '2025-04-20', 150, '2025-05-10'),
+(6, 2, '2025-04-22', 180, '2025-05-12'),
+(7, 3, '2025-04-11',  90, '2025-05-01'),
+(8, 3, '2025-04-14', 110, '2025-05-04'),
+(9, 3, '2025-04-16', 130, '2025-05-06'),
+(10,4, '2025-04-13', 140, '2025-05-03'),
+(11,5, '2025-04-19', 160, '2025-05-09'),
+(12,5, '2025-04-21', 170, '2025-05-11'),
+(1, 1, '2025-04-25',  80, '2025-05-15');
 
 
    

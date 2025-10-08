@@ -37,7 +37,6 @@ Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.in
  */
 Route::get('/producten/{product}/leverantie-info', [LeverantieInfoController::class, 'show'])
     ->name('leverantie.info.show');
-
 /**
  * Dashboard
  */
