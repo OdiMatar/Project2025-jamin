@@ -10,9 +10,7 @@ class Allergeen extends Model
     protected $primaryKey = 'Id';
     public $timestamps = false;
 
-    protected $fillable = [
-        'Naam',
-    ];
+    protected $fillable = ['Naam'];
 
     public function products()
     {

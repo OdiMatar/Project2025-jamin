@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class AllergeenModel extends Model
-{ 
-    protected $table = 'Allergeen'; // correctie: dit moet gelijk zijn aan je DB
+{
+    protected $table = 'Allergeen';
     protected $fillable = ['Naam', 'Omschrijving'];
     public $timestamps = false;
 
     public function sp_GetAllAllergenen()
-    {    
+    {
         return DB::select('CALL sp_GetAllAllergenen()');
     }
 

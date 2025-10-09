@@ -39,21 +39,22 @@ class AllergeenController extends Controller
             ->with('success', 'Allergeen is succesvol toegevoegd.');
     }
 
-    public function destroy($id)
+    public function show($id) // ✅ NIEUW
     {
-        $res = DB::select('CALL sp_DeleteAllergeen(?)', [(int)$id]);
-        $affected = $res[0]->Affected ?? 0;
+        $allergeen = $this->allergeenModel->sp_GetAllergeenById($id);
+        abort_if(!$allergeen, 404, 'Allergeen niet gevonden');
 
-        return redirect()->route('allergeen.index')
-            ->with('success', $affected > 0
-                ? 'Geen allergeen gevonden met dit ID.'
-                : 'Allergeen is succesvol verwijderd.');
+        return view('allergeen.show', [
+            'title' => 'Allergeen details',
+            'allergeen' => $allergeen,
+        ]);
     }
 
-    public function edit ($id)
+    public function edit($id)
     {
         $allergeen = $this->allergeenModel->sp_GetAllergeenById($id);
         abort_if(!$allergeen, 404);
+
         return view('allergeen.edit', [
             'title' => 'Bewerk Allergeen',
             'allergeen' => $allergeen,
@@ -71,10 +72,21 @@ class AllergeenController extends Controller
             ->sp_UpdateAllergeen($id, $validated['Naam'], $validated['Omschrijving']);
 
         if ($affected === 0) {
-            return back()->with('error','Er Bestaat geen allergeen met dit ID.');
+            return back()->with('error', 'Er Bestaat geen allergeen met dit ID.');
         }
 
         return redirect()->route('allergeen.index')
-            ->with('success','Allergeen is succesvol bijgewerkt.');
+            ->with('success', 'Allergeen is succesvol bijgewerkt.');
+    }
+
+    public function destroy($id)
+    {
+        $res = DB::select('CALL sp_DeleteAllergeen(?)', [(int)$id]);
+        $affected = $res[0]->Affected ?? 0;
+
+        return redirect()->route('allergeen.index')
+            ->with('success', $affected > 0
+                ? 'Allergeen is succesvol verwijderd.'
+                : 'Geen allergeen gevonden met dit ID.');
     }
 }
