@@ -5,7 +5,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_GetAllergeenById(IN p_id INT)
 BEGIN
-    SELECT Id, Naam, Omschrijving
+    SELECT Id, Naam, Omschrijving, DatumGewijzigd
     FROM Allergeen
     WHERE Id = p_id;
 END$$

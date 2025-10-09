@@ -74,6 +74,9 @@
 
                 <dt class="col-4 col-md-3">Omschrijving</dt>
                 <dd class="col-8 col-md-9">{{ $allergeen->Omschrijving }}</dd>
+
+                <dt class="col-4 col-md-3">DatumGewijzigd</dt>
+                <dd class="col-8 col-md-9">{{ $allergeen->DatumGewijzigd}}</dd>
               </dl>
             </div>
           </div>
