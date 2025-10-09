@@ -66,9 +66,6 @@
             <div class="border rounded-4 p-3 h-100">
               <div class="section-title">Basisgegevens</div>
               <dl class="row mb-0">
-                <dt class="col-4 col-md-3">ID</dt>
-                <dd class="col-8 col-md-9">{{ $allergeen->Id }}</dd>
-
                 <dt class="col-4 col-md-3">Naam</dt>
                 <dd class="col-8 col-md-9">{{ $allergeen->Naam }}</dd>
 
