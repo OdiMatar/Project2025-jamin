@@ -220,7 +220,7 @@
 
                   $productId     = $product?->Id ?? $product?->id ?? $row->ProductId ?? null;
 
-                  $heeftAllergenen = false;      // vervang met echte check
+                  $heeftAllergenen = $product?->allergenen()->exists(); // ✅ check op relatie
                   $heeftLeverantie = !empty($productId);
                 @endphp
 
