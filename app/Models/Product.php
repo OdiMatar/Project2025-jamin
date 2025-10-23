@@ -21,7 +21,7 @@ class Product extends Model
     {
         return $this->belongsToMany(
             Allergeen::class,
-            'ProductAllergeen',
+            'ProductPerAllergeen',
             'ProductId',
             'AllergeenId'
         );
