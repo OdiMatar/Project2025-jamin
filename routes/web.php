@@ -9,9 +9,7 @@ use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductDeliveryController;
 use App\Http\Controllers\LeverantieInfoController;
-use App\Http\Controllers\ProductAllergeenController; // ✅ NIEUW
-
-
+use App\Http\Controllers\ProductAllergeenController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -40,10 +38,8 @@ Route::get('/magazijn', [MagazijnController::class, 'index'])->name('magazijn.in
 Route::get('/producten/{product}/leverantie-info', [LeverantieInfoController::class, 'show'])
     ->name('leverantie.info.show');
 
-// ✅ NIEUW: allergenen-overzicht per product
-Route::get('/magazijn/product/{product}/allergenen', [ProductAllergeenController::class, 'show'])
+Route::get('/magazijn/{product}/allergenen', [\App\Http\Controllers\AllergeenController::class, 'product'])
     ->name('magazijn.allergenen.show');
-
 
 /**
  * Dashboard

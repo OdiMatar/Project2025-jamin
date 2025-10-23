@@ -220,7 +220,7 @@
 
                   $productId     = $product?->Id ?? $product?->id ?? $row->ProductId ?? null;
 
-                  $heeftAllergenen = $product?->allergenen()->exists(); // ✅ check op relatie
+                  $heeftAllergenen = false;      // vervang met echte check
                   $heeftLeverantie = !empty($productId);
                 @endphp
 
@@ -243,28 +243,19 @@
                     {{ $aantal !== null ? $aantal : '—' }}
                   </td>
 
-                 <td>
-              @if($productId)
-                <a href="{{ route('magazijn.allergenen.show', $productId) }}"
-                  class="btn btn-sm {{ $heeftAllergenen ? 'btn-outline-danger' : 'btn-outline-warning' }}"
-                  aria-label="Allergeneninformatie bekijken"
-                  title="Allergeneninformatie">
-              @if($heeftAllergenen)
-                        <i class="bi bi-x-octagon-fill"></i>
-                      @else
+                  <td>
+                    @if($heeftAllergenen)
+                      <span class="badge bg-danger rounded-pill">X</span>
+                    @else
+                      <button type="button"
+                              class="btn btn-sm btn-outline-warning"
+                              data-bs-toggle="tooltip"
+                              data-bs-title="Geen allergeneninformatie beschikbaar"
+                              aria-label="Geen allergeneninformatie">
                         <i class="bi bi-exclamation-triangle"></i>
-                      @endif
-                    </a>
-               @else
-                  {{-- ongewijzigde disabled weergave --}}
-                  <a href="{{ route('magazijn.allergenen.show', $productId) }}"
-                    class="btn btn-sm btn-outline-warning"
-                    aria-label="Allergenen informatie bekijken">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </a>
-
-              @endif
-              </td>
+                      </button>
+                    @endif
+                  </td>
 
                   <td>
                     @if($heeftLeverantie)
