@@ -243,19 +243,23 @@
                     {{ $aantal !== null ? $aantal : '—' }}
                   </td>
 
-                  <td>
-                    @if($heeftAllergenen)
-                      <span class="badge bg-danger rounded-pill">X</span>
-                    @else
-                      <button type="button"
-                              class="btn btn-sm btn-outline-warning"
-                              data-bs-toggle="tooltip"
-                              data-bs-title="Geen allergeneninformatie beschikbaar"
-                              aria-label="Geen allergeneninformatie">
-                        <i class="bi bi-exclamation-triangle"></i>
-                      </button>
-                    @endif
-                  </td>
+                  @if($productId)
+                  <a href="{{ route('magazijn.allergenen.show', $productId) }}"
+                    class="btn btn-sm btn-outline-warning"
+                    aria-label="Allergeneninformatie bekijken"
+                    title="Allergeneninformatie">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </a>
+                @else
+                  <button type="button"
+                          class="btn btn-sm btn-outline-warning"
+                          disabled
+                          aria-disabled="true">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </button>
+                @endif
+              </td>
+
 
                   <td>
                     @if($heeftLeverantie)
