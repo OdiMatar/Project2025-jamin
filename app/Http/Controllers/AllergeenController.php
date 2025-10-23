@@ -90,5 +90,16 @@ class AllergeenController extends Controller
                 ? 'Allergeen is succesvol verwijderd.'
                 : 'Geen allergeen gevonden met dit ID.');
     }
+    public function product($productId)   // ← GEEN type-hint Product
+    {
+        $product = Product::with([
+            'allergenen' => fn($q) => $q->orderBy('Naam', 'asc')
+        ])->findOrFail($productId);      // ← zelf ophalen
 
+        return view('allergeen.product', [
+            'title'      => 'Overzicht Allergenen',
+            'product'    => $product,
+            'allergenen' => $product->allergenen,
+        ]);
+    }
 }
