@@ -244,28 +244,27 @@
                   </td>
 
                  <td>
-  @if($productId)
-    <a href="{{ route('magazijn.allergenen.show', $productId) }}"
-       class="btn btn-sm {{ $heeftAllergenen ? 'btn-outline-danger' : 'btn-outline-warning' }}"
-       aria-label="Allergeneninformatie bekijken"
-       title="Allergeneninformatie">
-      @if($heeftAllergenen)
-                <i class="bi bi-x-octagon-fill"></i>
-              @else
-                <i class="bi bi-exclamation-triangle"></i>
-              @endif
-            </a>
-          @else
-            {{-- ongewijzigde disabled weergave --}}
-            <button type="button"
-                    class="btn btn-sm btn-outline-warning disabled"
-                    aria-disabled="true"
-                    aria-label="Geen allergeneninformatie">
-              <i class="bi bi-exclamation-triangle"></i>
-            </button>
-          @endif
-        </td>
+              @if($productId)
+                <a href="{{ route('magazijn.allergenen.show', $productId) }}"
+                  class="btn btn-sm {{ $heeftAllergenen ? 'btn-outline-danger' : 'btn-outline-warning' }}"
+                  aria-label="Allergeneninformatie bekijken"
+                  title="Allergeneninformatie">
+              @if($heeftAllergenen)
+                        <i class="bi bi-x-octagon-fill"></i>
+                      @else
+                        <i class="bi bi-exclamation-triangle"></i>
+                      @endif
+                    </a>
+               @else
+                  {{-- ongewijzigde disabled weergave --}}
+                  <a href="{{ route('magazijn.allergenen.show', $productId) }}"
+                    class="btn btn-sm btn-outline-warning"
+                    aria-label="Allergenen informatie bekijken">
+                    <i class="bi bi-exclamation-triangle"></i>
+                  </a>
 
+              @endif
+              </td>
 
                   <td>
                     @if($heeftLeverantie)
