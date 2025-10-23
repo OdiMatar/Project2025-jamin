@@ -221,7 +221,7 @@
                   $productId     = $product?->Id ?? $product?->id ?? $row->ProductId ?? null;
 
                  $heeftAllergenen = $product?->allergenen()->exists();
-                 
+
                   $heeftLeverantie = !empty($productId);
                 @endphp
 
@@ -243,23 +243,23 @@
                   <td class="text-nowrap">
                     {{ $aantal !== null ? $aantal : '—' }}
                   </td>
-
+                <td>
                   @if($productId)
-                  <a href="{{ route('magazijn.allergenen.show', $productId) }}"
-                    class="btn btn-sm btn-outline-warning"
-                    aria-label="Allergeneninformatie bekijken"
-                    title="Allergeneninformatie">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </a>
-                @else
-                  <button type="button"
-                          class="btn btn-sm btn-outline-warning"
-                          disabled
-                          aria-disabled="true">
-                    <i class="bi bi-exclamation-triangle"></i>
-                  </button>
-                @endif
-              </td>
+                    <a href="{{ route('magazijn.allergenen.show', $productId) }}"
+                      class="btn btn-sm btn-outline-warning"
+                      aria-label="Allergeneninformatie bekijken"
+                      title="Allergeneninformatie">
+                      <i class="bi bi-exclamation-triangle"></i>
+                    </a>
+                  @else
+                    <button type="button"
+                            class="btn btn-sm btn-outline-warning"
+                            disabled
+                            aria-disabled="true">
+                      <i class="bi bi-exclamation-triangle"></i>
+                    </button>
+                  @endif
+                </td>
 
 
                   <td>
