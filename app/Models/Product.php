@@ -39,4 +39,9 @@ class Product extends Model
         // in jouw leveringen-tabel is de FK waarschijnlijk ProductId
         return $this->hasMany(Levering::class, 'ProductId', 'Id');
     }
+
+    public function getRouteKeyName()
+    {
+        return 'Id';  // ← zeg Laravel dat de route key 'Id' is
+    }
 }
