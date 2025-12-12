@@ -92,6 +92,7 @@ class LeverancierController extends Controller
         );
 
         $result   = DB::select('SELECT @p_foutcode AS foutcode');
+        
         $foutcode = $result[0]->foutcode ?? null;
 
         if ($foutcode === 'PRODUCT_INACTIEF') {

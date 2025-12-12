@@ -9,8 +9,8 @@ BEGIN
         p.Naam                            AS ProductNaam,
         m.AantalAanwezig,
         m.VerpakkingsEenheid,
-        MAX(ppl.DatumLevering)            AS LaatsteLevering,
-        MAX(ppl.DatumEerstVolgendeLevering) AS VerwachteEerstvolgende
+        DATE_FORMAT(MAX(ppl.DatumLevering), '%d-%m-%Y')            AS LaatsteLevering,
+        DATE_FORMAT(MAX(ppl.DatumEerstVolgendeLevering), '%d-%m-%Y') AS VerwachteEerstvolgende
     FROM ProductPerLeverancier ppl
     JOIN Product   p ON p.Id = ppl.ProductId
     LEFT JOIN Magazijn m ON m.ProductId = p.Id
