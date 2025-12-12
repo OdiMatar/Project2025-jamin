@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Odi App</title>
 
     <link rel="icon" href="/favicon.ico" sizes="any">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -125,6 +125,7 @@
         <nav>
           <a href="{{ route('allergeen.index') }}">Allergenen</a>
           <a href="{{ route('magazijn.index') }}">Magazijn</a>
+          <a href="{{ route('leverancier.index') }}">Leveranciers</a> 
           @auth
             <a href="{{ url('/dashboard') }}">Dashboard</a>
           @else

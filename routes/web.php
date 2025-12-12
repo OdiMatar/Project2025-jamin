@@ -10,6 +10,7 @@ use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductDeliveryController;
 use App\Http\Controllers\LeverantieInfoController;
 use App\Http\Controllers\ProductAllergeenController;
+use App\Http\Controllers\LeverancierController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -41,6 +42,28 @@ Route::get('/producten/{product}/leverantie-info', [LeverantieInfoController::cl
 Route::get('/magazijn/{product}/allergenen', [\App\Http\Controllers\AllergeenController::class, 'product'])
     ->name('magazijn.allergenen.show');
 
+/**
+ * ➕ Leveranciers detailpagina
+ */
+Route::middleware(['auth'])->group(function () {
+    Route::get('/leveranciers', [LeverancierController::class, 'index'])
+        ->name('leverancier.index');
+
+    Route::get('/leveranciers/{leverancier}', [LeverancierController::class, 'show'])
+        ->name('leverancier.show');
+
+    Route::get(
+        '/leveranciers/{leverancier}/producten/{product}/nieuwe-levering',
+        [LeverancierController::class, 'createDelivery']
+    )
+        ->name('leverancier.product.delivery.create');
+
+    Route::post(
+        '/leveranciers/{leverancier}/producten/{product}/nieuwe-levering',
+        [LeverancierController::class, 'storeDelivery']
+    )
+        ->name('leverancier.product.delivery.store');
+});
 /**
  * Dashboard
  */

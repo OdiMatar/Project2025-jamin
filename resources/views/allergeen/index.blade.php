@@ -137,6 +137,7 @@
             <nav class="top-nav d-flex align-items-center justify-content-end">
                 <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i> Allergenen</a>
                 <a href="{{ route('magazijn.index') }}" class="nav-link-chip"><i class="bi bi-box"></i> Magazijn</a>
+                <a href="{{ route('leverancier.index') }}" class="nav-link-chip"><i class="bi bi-truck"></i> Leveranciers</a>
                 @auth
                     <a href="{{ url('/dashboard') }}" class="nav-link-chip"><i class="bi bi-speedometer2"></i> Dashboard</a>
                 @else

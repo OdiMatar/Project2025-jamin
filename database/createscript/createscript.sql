@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `Product` (
   `Id`                TINYINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `Naam`              VARCHAR(30)       NOT NULL,
   `Barcode`           VARCHAR(13)       NOT NULL,
-  `IsActief`          BIT               NOT NULL DEFAULT b'1',
+  `IsActief`          BIT               NOT NULL DEFAULT b'0',
   `Opmerkingen`       VARCHAR(250)               DEFAULT NULL,
   `DatumAangemaakt`   DATETIME(6)       NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `DatumGewijzigd`    DATETIME(6)       NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
@@ -177,7 +177,8 @@ INSERT INTO `Leverancier` (`Id`, `Naam`, `ContactPersoon`, `LeverancierNummer`, 
 (2, 'Astra Sweets',  'Jasper del Monte',  'L1029284315', '06-39398734'),
 (3, 'Haribo',        'Sven Stalman',      'L1029324748', '06-24383291'),
 (4, 'Basset',        'Joyce Stelterberg', 'L1023845773', '06-48293823'),
-(5, 'De Bron',       'Remco Veenstra',    'L1023857736', '06-34291234');
+(5, 'De Bron',       'Remco Veenstra',    'L1023857736', '06-34291234'),
+(6,'Odi Matar', 'Arjan de Ruiter', 'L9999999999', '06-00000000');
 
 
 

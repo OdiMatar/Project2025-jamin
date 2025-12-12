@@ -11,12 +11,6 @@
 </head>
 <body>
     {{-- Navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            {{-- na: --}}
-                <a class="navbar-brand" href="{{ url('/') }}">
-                     @yield('brand', 'Leverancier')
-                </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -43,6 +37,10 @@
                             <i class="bi bi-exclamation-triangle"></i> Allergenen
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('leverancier*') ? 'active' : '' }}" href="{{ route('leverancier.index') }}">
+                            <i class="bi bi-truck"></i> Leveranciers
+                        </a>
                 </ul>
                 <ul class="navbar-nav">
                     @guest

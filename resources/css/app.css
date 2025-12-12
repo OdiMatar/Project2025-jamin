@@ -65,3 +65,47 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+.app-header {
+    padding: 18px 24px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.top-nav {
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 0.55rem 0.8rem;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-link-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.35rem;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #111827;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.nav-link-chip i {
+    font-size: 1rem;
+}
+
+.nav-link-chip:hover {
+    background: #eef2ff;
+    border-color: #c7d2fe;
+}
+
+.nav-link-chip:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #eff6ff;
+}
