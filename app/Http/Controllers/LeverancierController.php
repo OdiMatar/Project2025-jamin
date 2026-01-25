@@ -12,6 +12,7 @@ class LeverancierController extends Controller
        ============================================================ */
     public function index()
     {
+        // (jouw bestaande SP)
         $leveranciers = DB::select('CALL sp_LeveranciersOverzicht()');
 
         return view('leveranciers.index', [
@@ -20,7 +21,83 @@ class LeverancierController extends Controller
     }
 
     /* ============================================================
-       Userstory 1 – geleverde producten van één leverancier
+       Userstory 1 – Leverancier details (Wireframe-03)
+       LET OP: jouw show() gebruikte nu "geleverde producten".
+       Ik voeg een NIEUWE method toe voor details om verwarring te voorkomen.
+       ============================================================ */
+    public function details($leverancierId)
+    {
+        $leverancier = DB::selectOne('CALL sp_LeverancierDetails(?)', [(int)$leverancierId]);
+
+        if (!$leverancier) {
+            abort(404);
+        }
+
+        return view('leveranciers.details', [
+            'leverancier' => $leverancier,
+        ]);
+    }
+
+    /* ============================================================
+       Userstory 1 – Wijzig leverancier (Wireframe-04)
+       ============================================================ */
+    public function edit($leverancierId)
+    {
+        $leverancier = DB::selectOne('CALL sp_LeverancierDetails(?)', [(int)$leverancierId]);
+
+        if (!$leverancier) {
+            abort(404);
+        }
+
+        return view('leveranciers.edit', [
+            'leverancier' => $leverancier,
+        ]);
+    }
+
+    /* ============================================================
+       Userstory 1 – Opslaan wijzig leverancier (Happy/Unhappy)
+       ============================================================ */
+    public function update(Request $request, $leverancierId)
+    {
+        $data = $request->validate([
+            'mobiel'     => ['required', 'string', 'max:15'],
+            'straatnaam' => ['nullable', 'string', 'max:50'],
+            'huisnummer' => ['nullable', 'string', 'max:10'],
+            'postcode'   => ['nullable', 'string', 'max:10'],
+            'stad'       => ['nullable', 'string', 'max:50'],
+        ]);
+
+        // call SP met OUT params
+        DB::statement(
+            'CALL sp_LeverancierWijzig(?, ?, ?, ?, ?, ?, @p_success, @p_message)',
+            [
+                (int)$leverancierId,
+                $data['mobiel'],
+                $data['straatnaam'] ?? null,
+                $data['huisnummer'] ?? null,
+                $data['postcode'] ?? null,
+                $data['stad'] ?? null,
+            ]
+        );
+
+        $out = DB::selectOne('SELECT @p_success AS success, @p_message AS message');
+
+        // Zowel happy als unhappy: volgens jouw scenario’s na 3 sec terug naar details
+        // (de blade laat de melding zien en doet setTimeout redirect)
+        if ((int)($out->success ?? 0) === 1) {
+            return redirect()
+                ->route('leverancier.details', $leverancierId)
+                ->with('success', $out->message);
+        }
+
+        return redirect()
+            ->route('leverancier.details', $leverancierId)
+            ->with('error', $out->message ?? 'Door een technische storing is het niet mogelijk de wijziging door te voeren. Probeer het op een later moment nog eens');
+    }
+
+    /* ============================================================
+       JOUW BESTAANDE CODE – geleverde producten van één leverancier
+       (laat ik intact, maar ik hernoem de route naam in routes straks)
        ============================================================ */
     public function show($leverancierId)
     {
@@ -33,7 +110,6 @@ class LeverancierController extends Controller
         $producten = DB::select('CALL sp_GeleverdeProducten(?)', [$leverancierId]);
 
         if (count($producten) === 0) {
-            // unhappy scenario – Wireframe 3
             return view('leveranciers.no-products', [
                 'leverancier' => $leverancier,
             ]);
@@ -92,17 +168,14 @@ class LeverancierController extends Controller
         );
 
         $result   = DB::select('SELECT @p_foutcode AS foutcode');
-        
         $foutcode = $result[0]->foutcode ?? null;
 
         if ($foutcode === 'PRODUCT_INACTIEF') {
-            // UNHAPPY: melding op Levering product (Wireframe-04)
             return redirect()
                 ->back()
                 ->with('error', "Het product {$product->Naam} van de leverancier {$leverancier->Naam} wordt niet meer geproduceerd");
         }
 
-        // HAPPY: terug naar Geleverde producten (Wireframe-02) met succes-melding
         return redirect()
             ->route('leverancier.show', $leverancierId)
             ->with('success', 'Nieuwe levering is opgeslagen.');

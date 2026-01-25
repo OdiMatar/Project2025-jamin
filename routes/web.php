@@ -46,24 +46,39 @@ Route::get('/magazijn/{product}/allergenen', [\App\Http\Controllers\AllergeenCon
  * ➕ Leveranciers detailpagina
  */
 Route::middleware(['auth'])->group(function () {
+
+    // Overzicht leveranciers (Wireframe-02)
     Route::get('/leveranciers', [LeverancierController::class, 'index'])
         ->name('leverancier.index');
 
-    Route::get('/leveranciers/{leverancier}', [LeverancierController::class, 'show'])
+    // Geleverde producten (BESTAAND – laten staan)
+    Route::get('/leveranciers/{leverancier}/producten', [LeverancierController::class, 'show'])
         ->name('leverancier.show');
 
+    // 🔹 Leverancier details (Wireframe-03)
+    Route::get('/leveranciers/{leverancier}', [LeverancierController::class, 'details'])
+        ->name('leverancier.details');
+
+    // 🔹 Wijzigen leverancier (Wireframe-04)
+    Route::get('/leveranciers/{leverancier}/wijzig', [LeverancierController::class, 'edit'])
+        ->name('leverancier.edit');
+
+    Route::put('/leveranciers/{leverancier}', [LeverancierController::class, 'update'])
+        ->name('leverancier.update');
+
+    // Userstory 2 – nieuwe levering (BESTAAND)
     Route::get(
         '/leveranciers/{leverancier}/producten/{product}/nieuwe-levering',
         [LeverancierController::class, 'createDelivery']
-    )
-        ->name('leverancier.product.delivery.create');
+    )->name('leverancier.product.delivery.create');
 
     Route::post(
         '/leveranciers/{leverancier}/producten/{product}/nieuwe-levering',
         [LeverancierController::class, 'storeDelivery']
-    )
-        ->name('leverancier.product.delivery.store');
+    )->name('leverancier.product.delivery.store');
 });
+
+
 /**
  * Dashboard
  */
