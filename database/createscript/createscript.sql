@@ -84,7 +84,8 @@ INSERT INTO `Product` (`Naam`, `Barcode`) VALUES
 ('Winegums', '8719587327527'),
 ('Drop Munten', '8719587322345'),
 ('Kruis Drop', '8719587322265'),
-('Zoute Ruitjes', '8719587323256');
+('Zoute Ruitjes', '8719587323256'),
+('Drop ninja''s', '8719587323277');
 
     -- Step: 06
 -- Goal: Create a new table Magazijn
@@ -100,7 +101,7 @@ INSERT INTO `Product` (`Naam`, `Barcode`) VALUES
 CREATE TABLE IF NOT EXISTS `Magazijn` (
   `Id`                 TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `ProductId`          TINYINT UNSIGNED NOT NULL,
-  `VerpakkingsEenheid` DECIMAL(5,2)     NOT NULL,
+  `VerpakkingsEenheid` DECIMAL(5,1)     NOT NULL,
   `AantalAanwezig`     INT                      DEFAULT NULL,
   `IsActief`           BIT               NOT NULL DEFAULT b'1',
   `Opmerkingen`        VARCHAR(250)               DEFAULT NULL,
@@ -119,19 +120,19 @@ CREATE TABLE IF NOT EXISTS `Magazijn` (
 -- 01            17-09-2025      Odi Matar                    New
 -- **********************************************************************************/
 INSERT INTO `Magazijn` (`Id`, `ProductId`, `VerpakkingsEenheid`, `AantalAanwezig`) VALUES
- (1, 1, 5.00, 453),
- (2, 2, 2.50, 400),
- (3, 3, 5.00, 1),
- (4, 4, 1.00, 800),
- (5, 5, 3.00, 234),
- (6, 6, 2.00, 345),
- (7, 7, 1.00, 795),
- (8, 8, 3.00, 233),
- (9, 9, 2.50, 123),
- (10, 10, 3.00, NULL),
- (11, 11, 2.00, 367),
- (12, 12, 1.00, 467),
- (13, 13, 5.00, 20);
+ (1, 1, 5.0, 453),
+ (2, 2, 2.5, 400),
+ (3, 3, 5.0, 1),
+ (4, 4, 1.0, 800),
+ (5, 5, 3.0, 234),
+ (6, 6, 2.0, 345),
+ (7, 7, 1.0, 795),
+ (8, 8, 10.0, 233),
+ (9, 9, 2.5, 123),
+ (10, 10, 3.0, NULL),
+ (11, 11, 2.0, 367),
+ (12, 12, 1.0, 467),
+ (13, 13, 5.0, 20);
 
 
 -- Step: 08
@@ -176,13 +177,14 @@ CREATE TABLE IF NOT EXISTS `Leverancier` (
 
 
 
-INSERT INTO `Leverancier` (`Id`, `Naam`, `ContactPersoon`, `LeverancierNummer`, `Mobiel`) VALUES
-(1, 'Venco',         'Bert van Linge',    'L1029384719', '06-28493827'),
-(2, 'Astra Sweets',  'Jasper del Monte',  'L1029284315', '06-39398734'),
-(3, 'Haribo',        'Sven Stalman',      'L1029324748', '06-24383291'),
-(4, 'Basset',        'Joyce Stelterberg', 'L1023845773', '06-48293823'),
-(5, 'De Bron',       'Remco Veenstra',    'L1023857736', '06-34291234'),
-(6,'Odi Matar', 'Arjan de Ruiter', 'L9999999999', '06-00000000');
+INSERT INTO `Leverancier` (`Id`, `Naam`, `ContactPersoon`, `LeverancierNummer`, `Mobiel`, `Straatnaam`, `Huisnummer`, `Postcode`, `Stad`) VALUES
+(1, 'Venco',         'Bert van Linge',    'L1029384719', '06-28493827', 'Van Gilslaan',      '34',  '1045CB', 'Hilvarenbeek'),
+(2, 'Astra Sweets',  'Jasper del Monte',  'L1029284315', '06-39398734', 'Den Dolderpad',     '2',   '1067RC', 'Utrecht'),
+(3, 'Haribo',        'Sven Stalman',      'L1029324748', '06-24383291', 'Fredo Raalteweg',   '257', '1236OP', 'Nijmegen'),
+(4, 'Basset',        'Joyce Stelterberg', 'L1023845773', '06-48293823', 'Bertrand Russellhof', '21', '2034AP', 'Den Haag'),
+(5, 'De Bron',       'Remco Veenstra',    'L1023857736', '06-34291234', 'Leon van Bonstraat', '213', '145XC',  'Lunteren'),
+(6, 'Quality Street', 'Johan Nooij',      'L1029234586', '06-23458456', 'Bea van Lingenlaan', '234', '2197FG', 'Sint Pancras'),
+(7, 'Hom Ken Food',  'Hom Ken',           'L1029234599', '06-23458477', NULL, NULL, NULL, NULL);
 
 
 
@@ -229,7 +231,8 @@ INSERT INTO `ProductPerAllergeen` (`Id`, `ProductId`, `AllergeenId`) VALUES
 (9, 12, 4),
 (10, 13, 1),
 (11, 13, 4),
-(12, 13, 5);
+(12, 13, 5),
+(13, 14, 5);
 
 -- Step: 08
 -- Goal: Create a new table Productleverancier
@@ -267,22 +270,24 @@ CREATE TABLE IF NOT EXISTS `ProductPerLeverancier` (
 
 INSERT INTO `ProductPerLeverancier`
 (`Id`, `LeverancierId`, `ProductId`, `DatumLevering`, `Aantal`, `DatumEerstVolgendeLevering`) VALUES
-(1,  1,  1,  '2024-10-09', 23, '2024-10-16'),
-(2,  1,  1,  '2024-10-18', 21, '2024-10-25'),
-(3,  1,  2,  '2024-10-09', 12, '2024-10-16'),
-(4,  1,  3,  '2024-10-10', 11, '2024-10-17'),
-(5,  2,  4,  '2024-10-14', 16, '2024-10-21'),
-(6,  2,  4,  '2024-10-21', 23, '2024-10-28'),
-(7,  2,  5,  '2024-10-14', 45, '2024-10-21'),
-(8,  2,  6,  '2024-10-14', 30, '2024-10-21'),
-(9,  2,  7,  '2024-10-12', 12, '2024-10-19'),
-(10, 3,  7,  '2024-10-19', 23, '2024-10-26'),
-(11, 3,  8,  '2024-10-10', 12, '2024-10-17'),
-(12, 3,  9,  '2024-10-11',  1, '2024-10-18'),
-(13, 4, 10,  '2024-10-16', 24, '2024-10-30'),
-(14, 5, 11,  '2024-10-10', 47, '2024-10-17'),
-(15, 5, 11,  '2024-10-19', 60, '2024-10-26'),
-(16, 5, 12,  '2024-10-11', 45, NULL);
+(1,  1,  1,  '2023-04-09', 23, '2023-04-16'),
+(2,  1,  1,  '2023-04-18', 21, '2023-04-25'),
+(3,  1,  2,  '2023-04-09', 12, '2023-04-16'),
+(4,  1,  3,  '2023-04-10', 11, '2023-04-17'),
+(5,  2,  4,  '2023-04-14', 16, '2023-04-21'),
+(6,  2,  4,  '2023-04-21', 23, '2023-04-28'),
+(7,  2,  5,  '2023-04-14', 45, '2023-04-21'),
+(8,  2,  6,  '2023-04-14', 30, '2023-04-21'),
+(9,  3,  7,  '2023-04-12', 12, '2023-04-19'),
+(10, 3,  7,  '2023-04-19', 23, '2023-04-26'),
+(11, 3,  8,  '2023-04-10', 12, '2023-04-17'),
+(12, 3,  9,  '2023-04-11',  1, '2023-04-18'),
+(13, 4, 10,  '2023-04-16', 24, '2023-04-30'),
+(14, 5, 11,  '2023-04-10', 47, '2023-04-17'),
+(15, 5, 11,  '2023-04-19', 60, '2023-04-26'),
+(16, 5, 12,  '2023-04-11', 45, NULL),
+(17, 5, 13,  '2023-04-12', 23, NULL),
+(18, 7, 14,  '2023-04-14', 20, NULL);
 
 -- Step: 08
 -- Goal: Create a new table levering
