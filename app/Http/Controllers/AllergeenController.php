@@ -123,4 +123,41 @@ class AllergeenController extends Controller
             'geselecteerdAllergeenId' => $allergeenId,
         ]);
     }
+
+    /**
+     * User Story 1 - Scenario 2 & 3: Leverancier info pagina
+     */
+    public function leverancierInfo($productId)
+    {
+        // Haal product en leverancier info op
+        $result = DB::select('
+            SELECT DISTINCT
+                p.Id AS ProductId,
+                p.Naam AS ProductNaam,
+                l.Naam AS LeverancierNaam,
+                l.ContactPersoon,
+                l.Mobiel,
+                l.LeverancierNummer,
+                l.Straatnaam,
+                l.Huisnummer,
+                l.Postcode,
+                l.Stad
+            FROM Product p
+            LEFT JOIN ProductPerLeverancier ppl ON p.Id = ppl.ProductId
+            LEFT JOIN Leverancier l ON ppl.LeverancierId = l.Id
+            WHERE p.Id = ?
+            LIMIT 1
+        ', [$productId]);
+
+        $product = $result[0] ?? null;
+        
+        if (!$product) {
+            abort(404, 'Product niet gevonden');
+        }
+
+        return view('allergeen.leverancier-info', [
+            'product' => $product,
+            'leverancier' => $product->LeverancierNaam ? $product : null,
+        ]);
+    }
 }

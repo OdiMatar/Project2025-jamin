@@ -33,6 +33,11 @@ Route::get('/overzicht-allergenen', [AllergeenController::class, 'productenOverz
     ->name('allergeen.producten.overzicht')
     ->middleware('auth');
 
+/** ✅ User Story 1 - Scenario 2 & 3: Leverancier info pagina */
+Route::get('/overzicht-allergenen/leverancier/{productId}', [AllergeenController::class, 'leverancierInfo'])
+    ->name('allergeen.leverancier.info')
+    ->middleware('auth');
+
 /**
  * ✅ Magazijn
  */

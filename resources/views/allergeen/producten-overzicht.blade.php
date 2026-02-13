@@ -187,42 +187,11 @@
                                 <td>{{ $product->AantalAanwezig ?? 'N/A' }}</td>
                                 <td>
                                     @if($product->LeverancierNaam)
-                                        <button type="button" 
-                                                class="btn-info-icon" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#infoModal{{ $product->ProductId }}"
-                                                title="Leverancier info">
+                                        <a href="{{ route('allergeen.leverancier.info', $product->ProductId) }}" 
+                                           class="btn-info-icon" 
+                                           title="Leverancier info">
                                             <i class="bi bi-info-circle"></i>
-                                        </button>
-
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="infoModal{{ $product->ProductId }}" tabindex="-1">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">
-                                                            <i class="bi bi-truck"></i> Leverancier Informatie
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><strong>Product:</strong> {{ $product->ProductNaam }}</p>
-                                                        <p><strong>Leverancier:</strong> {{ $product->LeverancierNaam }}</p>
-                                                        <p><strong>Contactpersoon:</strong> {{ $product->ContactPersoon }}</p>
-                                                        <p><strong>Mobiel:</strong> 
-                                                            <a href="tel:{{ $product->Mobiel }}">{{ $product->Mobiel }}</a>
-                                                        </p>
-                                                        <p><strong>Leverancier Nummer:</strong> {{ $product->LeverancierNummer }}</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Sluiten</button>
-                                                        <a href="tel:{{ $product->Mobiel }}" class="btn btn-primary">
-                                                            <i class="bi bi-telephone"></i> Bel Nu
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </a>
                                     @else
                                         <span class="text-muted">-</span>
                                     @endif
