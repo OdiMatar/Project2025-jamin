@@ -28,6 +28,11 @@ Route::delete('/Allergeen/{id}', [AllergeenController::class, 'destroy'])->name(
 /** ✅ NIEUW: details op ID */
 Route::get('/Allergeen/{id}', [AllergeenController::class, 'show'])->name('allergeen.show');
 
+/** ✅ User Story 1: Overzicht producten met allergenen */
+Route::get('/overzicht-allergenen', [AllergeenController::class, 'productenOverzicht'])
+    ->name('allergeen.producten.overzicht')
+    ->middleware('auth');
+
 /**
  * ✅ Magazijn
  */

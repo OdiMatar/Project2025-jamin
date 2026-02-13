@@ -123,6 +123,7 @@
     <header>
       @if (Route::has('login'))
         <nav>
+          <a href="{{ route('allergeen.producten.overzicht') }}">Overzicht Allergenen</a>
           <a href="{{ route('allergeen.index') }}">Allergenen</a>
           <a href="{{ route('magazijn.index') }}">Magazijn</a>
           <a href="{{ route('leverancier.index') }}">Leveranciers</a> 

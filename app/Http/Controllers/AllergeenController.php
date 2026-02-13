@@ -102,4 +102,25 @@ class AllergeenController extends Controller
             'allergenen' => $product->allergenen,
         ]);
     }
+
+    /**
+     * User Story 1: Overzicht van producten met allergenen
+     */
+    public function productenOverzicht(Request $request)
+    {
+        $allergeenId = $request->input('allergeen_id');
+        
+        // Haal alle allergenen op voor de dropdown
+        $alleAllergenen = DB::select('CALL sp_GetAllAllergenen()');
+        
+        // Haal producten met allergenen op (gefilterd of alle)
+        $producten = DB::select('CALL sp_ProductenMetAllergenen(?)', [$allergeenId]);
+        
+        return view('allergeen.producten-overzicht', [
+            'title' => 'Overzicht Allergenen',
+            'producten' => $producten,
+            'alleAllergenen' => $alleAllergenen,
+            'geselecteerdAllergeenId' => $allergeenId,
+        ]);
+    }
 }
