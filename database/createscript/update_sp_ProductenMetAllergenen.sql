@@ -1,11 +1,7 @@
--- Step: 14
--- Goal: Create stored procedure to get products with allergens and supplier info
--- **********************************************************************************
--- Version       Date:           Author:                     Description:
--- *******       **********      ****************            ******************
--- 01            13-02-2026      Generated                   New
--- 02            13-02-2026      Fixed                       Fixed filter logic
--- **********************************************************************************/
+-- Update stored procedure sp_ProductenMetAllergenen
+-- Run this file to update the stored procedure
+
+USE laravel;
 
 DROP PROCEDURE IF EXISTS sp_ProductenMetAllergenen;
 
@@ -66,3 +62,6 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+-- Test de stored procedure
+CALL sp_ProductenMetAllergenen(NULL);
