@@ -172,6 +172,7 @@
   <header class="app-header not-has-[nav]:hidden">
     @if (Route::has('login'))
       <nav class="top-nav">
+        <a href="{{ route('allergeen.producten.overzicht') }}" class="nav-link-chip"><i class="bi bi-exclamation-triangle"></i> Overzicht Allergenen</a>
         <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i> Allergenen</a>
         <a href="{{ route('magazijn.index') }}"  class="nav-link-chip"><i class="bi bi-box"></i> Magazijn</a>
         <a href="{{ route('leverancier.index') }}" class="nav-link-chip"><i class="bi bi-truck"></i> Leveranciers</a>

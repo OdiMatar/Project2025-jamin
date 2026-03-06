@@ -105,12 +105,17 @@
     <header class="app-header">
         @if (Route::has('login'))
             <nav class="top-nav d-flex align-items-center justify-content-end">
-                <a href="{{ route('home') }}" class="nav-link-chip"><i class="bi bi-house"></i> Home</a>
                 <a href="{{ route('allergeen.producten.overzicht') }}" class="nav-link-chip"><i class="bi bi-exclamation-triangle"></i> Overzicht Allergenen</a>
+                <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i> Allergenen</a>
                 <a href="{{ route('magazijn.index') }}" class="nav-link-chip"><i class="bi bi-box"></i> Magazijn</a>
                 <a href="{{ route('leverancier.index') }}" class="nav-link-chip"><i class="bi bi-truck"></i> Leveranciers</a>
                 @auth
                     <a href="{{ url('/dashboard') }}" class="nav-link-chip"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="nav-link-chip"><i class="bi bi-door-open"></i> Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="nav-link-chip"><i class="bi bi-person-plus"></i> Register</a>
+                    @endif
                 @endauth
             </nav>
         @endif
