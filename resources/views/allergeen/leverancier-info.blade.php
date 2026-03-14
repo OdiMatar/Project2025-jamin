@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,102 +11,225 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 
     <style>
-        :root{
-            --bg1:#f6f8fc; --bg2:#eef2ff; --card:#ffffff;
-            --text:#0f172a; --muted:#6b7280;
-            --primary:#0d6efd; --primary-600:#0b5ed7; --ring:rgba(13,110,253,.25);
-            --line:rgba(15,23,42,.08);
+        :root {
+            --bg1: #f6f8fc;
+            --bg2: #eef2ff;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #6b7280;
+            --primary: #0d6efd;
+            --primary-600: #0b5ed7;
+            --ring: rgba(13, 110, 253, .25);
+            --line: rgba(15, 23, 42, .08);
         }
-        html,body{height:100%}
-        body{
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
             background:
                 radial-gradient(1200px 600px at 10% -10%, #e8eefc 0%, transparent 50%),
                 radial-gradient(1200px 600px at 110% 10%, #f2f4ff 0%, transparent 50%),
                 linear-gradient(135deg, var(--bg1), var(--bg2));
-            color:var(--text);
-            -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .app-header{max-width:900px;margin:1.25rem auto 0;padding:0 1rem}
-        .top-nav{
-            backdrop-filter:saturate(160%) blur(8px);
-            background:rgba(255,255,255,.85);
-            border:1px solid var(--line); border-radius:.85rem;
-            box-shadow:0 10px 30px rgba(2,6,23,.05); padding:.5rem; gap:.5rem;
-        }
-        .nav-link-chip{
-            display:inline-flex;align-items:center;gap:.5rem;padding:.5rem .9rem;
-            border:1px solid var(--line);border-radius:999px;text-decoration:none;
-            color:#111827;font-weight:500;transition:.2s;
-        }
-        .nav-link-chip:hover{transform:translateY(-1px);color:var(--primary-600);border-color:rgba(13,110,253,.35)}
-
-        .main-wrap{max-width:900px;margin:1.25rem auto 3rem;padding:0 1rem}
-        .main-card{border-radius:1.25rem;border:1px solid var(--line);background:var(--card);overflow:hidden;box-shadow:0 10px 30px rgba(2,6,23,.08)}
-        
-        .header-bar{
-            background:linear-gradient(135deg, #0d6efd 0%, #5b9bff 100%);
-            color:#fff; padding:2rem 1.5rem; position:relative; overflow:hidden;
-        }
-        .header-bar::after{
-            content:""; position:absolute; inset:-30% -8% auto auto; width:46%; height:220%;
-            background:radial-gradient(closest-side, rgba(255,255,255,.28), transparent 65%);
-            transform:rotate(-18deg); pointer-events:none;
-        }
-        .header-title{font-weight:800;font-size:1.75rem;margin-bottom:.5rem}
-        .header-subtitle{opacity:.95;font-size:1rem}
-
-        .info-section{padding:2rem 1.5rem}
-        .info-table{width:100%;border-collapse:separate;border-spacing:0 .75rem}
-        .info-table tr{background:#f8fafc;border-radius:.5rem}
-        .info-table td{padding:1rem 1.25rem;border:none}
-        .info-table td:first-child{
-            font-weight:700;color:#475569;width:200px;
-            border-radius:.5rem 0 0 .5rem;
-        }
-        .info-table td:last-child{
-            color:#0f172a;border-radius:0 .5rem .5rem 0;
+        .app-header {
+            max-width: 900px;
+            margin: 1.25rem auto 0;
+            padding: 0 1rem
         }
 
-        .alert-warning{
-            background:#fff3cd;border:1px solid #ffc107;border-radius:.75rem;
-            padding:1.25rem;margin:1.5rem 0;display:flex;align-items:center;gap:1rem;
+        .top-nav {
+            backdrop-filter: saturate(160%) blur(8px);
+            background: rgba(255, 255, 255, .85);
+            border: 1px solid var(--line);
+            border-radius: .85rem;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, .05);
+            padding: .5rem;
+            gap: .5rem;
         }
-        .alert-warning i{font-size:1.5rem;color:#856404}
 
-        .btn-back{
-            display:inline-flex;align-items:center;gap:.5rem;
-            padding:.75rem 1.5rem;background:var(--primary);color:#fff;
-            border-radius:.5rem;text-decoration:none;font-weight:600;
-            transition:.2s;border:none;
+        .nav-link-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .5rem .9rem;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            text-decoration: none;
+            color: #111827;
+            font-weight: 500;
+            transition: .2s;
         }
-        .btn-back:hover{background:var(--primary-600);transform:translateY(-1px);color:#fff}
 
-        .btn-call{
-            display:inline-flex;align-items:center;gap:.5rem;
-            padding:.75rem 1.5rem;background:#10b981;color:#fff;
-            border-radius:.5rem;text-decoration:none;font-weight:600;
-            transition:.2s;margin-left:.5rem;
+        .nav-link-chip:hover {
+            transform: translateY(-1px);
+            color: var(--primary-600);
+            border-color: rgba(13, 110, 253, .35)
         }
-        .btn-call:hover{background:#059669;transform:translateY(-1px);color:#fff}
+
+        .main-wrap {
+            max-width: 900px;
+            margin: 1.25rem auto 3rem;
+            padding: 0 1rem
+        }
+
+        .main-card {
+            border-radius: 1.25rem;
+            border: 1px solid var(--line);
+            background: var(--card);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, .08)
+        }
+
+        .header-bar {
+            background: linear-gradient(135deg, #0d6efd 0%, #5b9bff 100%);
+            color: #fff;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-bar::after {
+            content: "";
+            position: absolute;
+            inset: -30% -8% auto auto;
+            width: 46%;
+            height: 220%;
+            background: radial-gradient(closest-side, rgba(255, 255, 255, .28), transparent 65%);
+            transform: rotate(-18deg);
+            pointer-events: none;
+        }
+
+        .header-title {
+            font-weight: 800;
+            font-size: 1.75rem;
+            margin-bottom: .5rem
+        }
+
+        .header-subtitle {
+            opacity: .95;
+            font-size: 1rem
+        }
+
+        .info-section {
+            padding: 2rem 1.5rem
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 .75rem
+        }
+
+        .info-table tr {
+            background: #f8fafc;
+            border-radius: .5rem
+        }
+
+        .info-table td {
+            padding: 1rem 1.25rem;
+            border: none
+        }
+
+        .info-table td:first-child {
+            font-weight: 700;
+            color: #475569;
+            width: 200px;
+            border-radius: .5rem 0 0 .5rem;
+        }
+
+        .info-table td:last-child {
+            color: #0f172a;
+            border-radius: 0 .5rem .5rem 0;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: .75rem;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .alert-warning i {
+            font-size: 1.5rem;
+            color: #856404
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.5rem;
+            background: var(--primary);
+            color: #fff;
+            border-radius: .5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .2s;
+            border: none;
+        }
+
+        .btn-back:hover {
+            background: var(--primary-600);
+            transform: translateY(-1px);
+            color: #fff
+        }
+
+        .btn-call {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .75rem 1.5rem;
+            background: #10b981;
+            color: #fff;
+            border-radius: .5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: .2s;
+            margin-left: .5rem;
+        }
+
+        .btn-call:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            color: #fff
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Navigation -->
     <header class="app-header">
         @if (Route::has('login'))
             <nav class="top-nav d-flex align-items-center justify-content-end">
-                <a href="{{ route('allergeen.producten.overzicht') }}" class="nav-link-chip"><i class="bi bi-exclamation-triangle"></i> Overzicht Allergenen</a>
-                <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i> Allergenen</a>
+                <a href="{{ url('/') }}" class="nav-link-chip"><i class="bi bi-house"></i> Home</a>
+                <a href="{{ route('leveringen.overzicht') }}" class="nav-link-chip"><i class="bi bi-truck"></i>
+                    Overzicht geleverde producten</a>
+                <a href="{{ route('allergeen.producten.overzicht') }}" class="nav-link-chip"><i
+                        class="bi bi-exclamation-triangle"></i> Overzicht Allergenen</a>
+                <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i>
+                    Allergenen</a>
                 <a href="{{ route('magazijn.index') }}" class="nav-link-chip"><i class="bi bi-box"></i> Magazijn</a>
-                <a href="{{ route('leverancier.index') }}" class="nav-link-chip"><i class="bi bi-truck"></i> Leveranciers</a>
+                <a href="{{ route('leverancier.index') }}" class="nav-link-chip"><i class="bi bi-truck"></i>
+                    Leveranciers</a>
                 @auth
                     <a href="{{ url('/dashboard') }}" class="nav-link-chip"><i class="bi bi-speedometer2"></i> Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="nav-link-chip"><i class="bi bi-door-open"></i> Log in</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="nav-link-chip"><i class="bi bi-person-plus"></i> Register</a>
+                        <a href="{{ route('register') }}" class="nav-link-chip"><i class="bi bi-person-plus"></i>
+                            Register</a>
                     @endif
                 @endauth
             </nav>
@@ -126,8 +250,8 @@
 
             <!-- Info Section -->
             <div class="info-section">
-                
-                @if($leverancier)
+
+                @if ($leverancier)
                     <table class="info-table">
                         <tr>
                             <td><i class="bi bi-building"></i> Naam Leverancier</td>
@@ -159,7 +283,7 @@
                         </tr>
                     </table>
 
-                    @if(!$leverancier->Stad || !$leverancier->Straatnaam || !$leverancier->Huisnummer)
+                    @if (!$leverancier->Stad || !$leverancier->Straatnaam || !$leverancier->Huisnummer)
                         <div class="alert-warning">
                             <i class="bi bi-exclamation-triangle-fill"></i>
                             <div>
@@ -176,7 +300,6 @@
                             <i class="bi bi-telephone-fill"></i> Bel leverancier
                         </a>
                     </div>
-
                 @else
                     <div class="alert-warning">
                         <i class="bi bi-exclamation-triangle-fill"></i>
@@ -198,4 +321,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

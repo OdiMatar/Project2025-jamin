@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Leverancier;
 use App\Models\Levering;
+use App\Models\ProductPerLeverancier;
 use Illuminate\Support\Facades\DB;
 
 class LeverantieInfoController extends Controller
@@ -14,33 +15,33 @@ class LeverantieInfoController extends Controller
         // Product via jouw PK 'Id'
         $product = Product::where('Id', $productId)->firstOrFail();
 
-        // Leverancier bepalen:
-        // 1) rechtstreeks van Product (als die kolom ooit wordt toegevoegd),
-        // 2) anders laatste Levering,
-        // 3) anders laatste ProductPerLeverancier.
-        $leverancierId =
-            ($product->LeverancierId ?? null)
-            ?? Levering::where('ProductId', $product->Id)
-                ->orderByDesc('DatumLaatste')
-                ->value('LeverancierId')
-            ?? DB::table('ProductPerLeverancier')
-                ->where('ProductId', $product->Id)
-                ->orderByDesc('DatumLevering')
-                ->value('LeverancierId');
+        // Query parameters voor het tijdvak (optioneel)
+        $start = request()->query('start');
+        $end   = request()->query('end');
 
-        $leverancier = $leverancierId
-            ? Leverancier::where('Id', $leverancierId)->first()
-            : null;
+        // Alle leveringen van dit product uit ProductPerLeverancier (user story)
+        $leveringenQuery = ProductPerLeverancier::with('leverancier')
+            ->where('ProductId', $product->Id)
+            ->orderBy('DatumLevering', 'asc');
 
-        // Alle leveringen van dit product in oplopende volgorde (user story)
-        $leveringen = Levering::where('ProductId', $product->Id)
-            ->orderBy('DatumLaatste', 'asc')
-            ->get();
+        if ($start) {
+            $leveringenQuery->where('DatumLevering', '>=', $start);
+        }
+
+        if ($end) {
+            $leveringenQuery->where('DatumLevering', '<=', $end);
+        }
+
+        $leveringen = $leveringenQuery->get();
+
+        // Bepaal leverancier vanuit de (eventueel gefilterde) leveringen
+        $leverancier = $leveringen->first()?->leverancier;
 
         // Meest recente verwachte datum (voor Scenario_02)
-        $verwachte = Levering::where('ProductId', $product->Id)
-            ->orderByDesc('VerwachteEerstvolgende')
-            ->value('VerwachteEerstvolgende');
+        $verwachte = $leveringen
+            ->filter(fn ($d) => !is_null($d->DatumEerstVolgendeLevering))
+            ->sortByDesc('DatumEerstVolgendeLevering')
+            ->first()?->DatumEerstVolgendeLevering;
 
         return view('leveranciers.info', [
             'product'     => $product,
@@ -50,3 +51,4 @@ class LeverantieInfoController extends Controller
         ]);
     }
 }
+

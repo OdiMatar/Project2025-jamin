@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,46 +10,74 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 </head>
+
 <body>
     {{-- Navbar --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <i class="bi bi-box-seam"></i> Jamin Magazijn
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">
                             <i class="bi bi-house"></i> Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="{{ url('/dashboard') }}">
+                        <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}"
+                            href="{{ url('/dashboard') }}">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('magazijn*') ? 'active' : '' }}" href="{{ route('magazijn.index') }}">
-                            <i class="bi bi-box-seam"></i> Magazijn
+                        <a class="nav-link {{ request()->is('overzicht-allergenen') ? 'active' : '' }}"
+                            href="{{ route('allergeen.producten.overzicht') }}">
+                            <i class="bi bi-card-list"></i> Overzicht Allergenen
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('allergeen*') ? 'active' : '' }}" href="{{ route('allergeen.index') }}">
+                        <a class="nav-link {{ request()->is('overzicht-geleverde-producten') ? 'active' : '' }}"
+                            href="{{ route('leveringen.overzicht') }}">
+                            <i class="bi bi-truck"></i> Overzicht geleverde producten
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('allergeen*') ? 'active' : '' }}"
+                            href="{{ route('allergeen.index') }}">
                             <i class="bi bi-exclamation-triangle"></i> Allergenen
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->is('leverancier*') ? 'active' : '' }}" href="{{ route('leverancier.index') }}">
+                        <a class="nav-link {{ request()->is('magazijn*') ? 'active' : '' }}"
+                            href="{{ route('magazijn.index') }}">
+                            <i class="bi bi-box-seam"></i> Magazijn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('leverancier*') ? 'active' : '' }}"
+                            href="{{ route('leverancier.index') }}">
                             <i class="bi bi-truck"></i> Leveranciers
                         </a>
+                    </li>
                 </ul>
+
                 <ul class="navbar-nav">
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i> Inloggen</a>
+                            <a class="nav-link" href="{{ route('login') }}"><i class="bi bi-box-arrow-in-right"></i>
+                                Inloggen</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}"><i class="bi bi-person-plus"></i> Registreren</a>
+                            <a class="nav-link" href="{{ route('register') }}"><i class="bi bi-person-plus"></i>
+                                Registreren</a>
                         </li>
                     @else
                         <li class="nav-item">
@@ -57,7 +86,7 @@
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button class="btn btn-outline-light btn-sm" type="submit">
+                                <button class="btn btn-outline-secondary btn-sm" type="submit">
                                     <i class="bi bi-box-arrow-right"></i> Uitloggen
                                 </button>
                             </form>
@@ -77,4 +106,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

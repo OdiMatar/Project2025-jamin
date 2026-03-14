@@ -86,6 +86,10 @@ Route::middleware(['auth'])->group(function () {
         '/leveranciers/{leverancier}/producten/{product}/nieuwe-levering',
         [LeverancierController::class, 'storeDelivery']
     )->name('leverancier.product.delivery.store');
+
+    // Userstory 1 – Overzicht geleverde producten
+    Route::get('/overzicht-geleverde-producten', [ProductDeliveryController::class, 'index'])
+        ->name('leveringen.overzicht');
 });
 
 

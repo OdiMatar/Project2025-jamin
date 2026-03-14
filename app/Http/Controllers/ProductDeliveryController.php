@@ -3,33 +3,81 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductPerLeverancier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductDeliveryController extends Controller
 {
-    public function show(Product $product)
+    /**
+     * Overzicht geleverde producten.
+     *
+     * Userstory 1: overzicht van alle geleverde producten binnen een tijdvak.
+     */
+    public function index(Request $request)
     {
-        $product->load(['warehouse', 'deliveries.leverancier']);
+        $data = $request->validate([
+            'start' => ['nullable', 'date'],
+            'end'   => ['nullable', 'date'],
+        ]);
 
-        // Alle leveringen van dit product, oplopend op DatumLevering
-        $deliveries = $product->deliveries()
-            ->with('leverancier')
-            ->orderBy('DatumLevering', 'asc')
-            ->get();
+        $start = $data['start'] ?? null;
+        $end   = $data['end'] ?? null;
 
-        // Verwachte eerstvolgende levering: neem de meest recente (grootste) 'DatumEerstVolgendeLevering' die niet null is
+        // Voor de query gebruiken we een breed bereik als er geen filter is opgegeven.
+        $queryStart = $start ?? '1900-01-01';
+        $queryEnd   = $end   ?? now()->format('Y-m-d');
+
+        $products = collect(DB::select('CALL sp_GeleverdeProductenInPeriode(?, ?)', [$queryStart, $queryEnd]));
+
+        return view('deliveries.overview', [
+            'products'  => $products,
+            // Toon in de UI alleen wat de gebruiker selecteerde (of leeg) 
+            'startDate' => $start,
+            'endDate'   => $end,
+        ]);
+    }
+
+    public function show(Request $request, Product $product)
+    {
+        $data = $request->validate([
+            'start' => ['nullable', 'date'],
+            'end'   => ['nullable', 'date'],
+        ]);
+
+        $start = $data['start'] ?? null;
+        $end   = $data['end'] ?? null;
+
+        // Alle leveringen voor dit product (ProductPerLeverancier), evt. gefilterd op tijdvak
+        $deliveriesQuery = ProductPerLeverancier::with('leverancier')
+            ->where('ProductId', $product->Id)
+            ->orderBy('DatumLevering', 'asc');
+
+        if ($start) {
+            $deliveriesQuery->where('DatumLevering', '>=', $start);
+        }
+
+        if ($end) {
+            $deliveriesQuery->where('DatumLevering', '<=', $end);
+        }
+
+        $deliveries = $deliveriesQuery->get();
+
+        // Verwachte eerstvolgende levering binnen het tijdvak (indien beschikbaar)
         $nextExpected = $deliveries
             ->filter(fn ($d) => !is_null($d->DatumEerstVolgendeLevering))
             ->sortByDesc('DatumEerstVolgendeLevering')
             ->first()
             ?->DatumEerstVolgendeLevering;
 
-        // Bepaal leveranciers (uniek) voor header
+        // Bepaal leverancier(s) (uniek) voor header
         $suppliers = $deliveries->pluck('leverancier')->unique('Id')->values();
 
-        // Scenario_02: geen voorraad (NULL of 0) => melding + 4 sec redirect
-        $noStock = is_null(optional($product->warehouse)->AantalAanwezig) || (int)optional($product->warehouse)->AantalAanwezig === 0;
+        // Voor voorraadmelding gebruiken we het magazijn
+        $product->load(['magazijn']);
+        $noStock = is_null(optional($product->magazijn)->AantalAanwezig) || (int)optional($product->magazijn)->AantalAanwezig === 0;
 
-        return view('deliveries.show', compact('product','deliveries','nextExpected','suppliers','noStock'));
+        return view('deliveries.show', compact('product','deliveries','nextExpected','suppliers','noStock','start','end'));
     }
 }
+

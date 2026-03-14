@@ -16,4 +16,9 @@ class ProductPerLeverancier extends Model
     {
         return $this->belongsTo(Product::class, 'ProductId');
     }
+
+    public function leverancier()
+    {
+        return $this->belongsTo(Leverancier::class, 'LeverancierId');
+    }
 }
