@@ -106,14 +106,14 @@ CREATE TABLE IF NOT EXISTS `ProductEinddatumLevering` (
 ) ENGINE=InnoDB;
 
 INSERT INTO `ProductEinddatumLevering` (`Id`, `ProductId`, `EinddatumLevering`) VALUES
- (1, 1,  '2024-06-01'),
- (2, 2,  '2024-05-22'),
- (3, 3,  '2026-01-01'),
- (4, 4,  '2024-05-12'),
- (5, 7,  '2024-05-27'),
- (6, 10, '2024-05-03'),
- (7, 11, '2024-02-09'),
- (8, 14, '2024-01-01');
+ (1, 1,  '2026-02-15'),
+ (2, 2,  '2026-03-20'),
+ (3, 3,  '2026-06-15'),
+ (4, 4,  '2026-01-30'),
+ (5, 7,  '2026-04-10'),
+ (6, 10, '2026-03-05'),
+ (7, 11, '2026-05-25'),
+ (8, 14, '2026-02-09');
 
     -- Step: 06
 -- Goal: Create a new table Magazijn
@@ -397,7 +397,6 @@ VALUES ('Demo', 'demo@example.com',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'),
         ('User', 'user@example.com',
         '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
-
 
 
 
