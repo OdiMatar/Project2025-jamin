@@ -50,6 +50,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {{ request()->is('overzicht-producten-uit-assortiment*') ? 'active' : '' }}"
+                            href="{{ route('assortiment.overzicht') }}">
+                            <i class="bi bi-x-circle"></i> Overzicht uit assortiment
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('allergeen*') ? 'active' : '' }}"
                             href="{{ route('allergeen.index') }}">
                             <i class="bi bi-exclamation-triangle"></i> Allergenen

@@ -18,6 +18,10 @@
                         producten</a>
                 </div>
                 <div class="col-auto">
+                    <a href="{{ route('assortiment.overzicht') }}" class="btn btn-outline-secondary btn-sm">Overzicht uit
+                        assortiment</a>
+                </div>
+                <div class="col-auto">
                     <a href="{{ route('allergeen.index') }}" class="btn btn-outline-secondary btn-sm">Allergenen</a>
                 </div>
                 <div class="col-auto">

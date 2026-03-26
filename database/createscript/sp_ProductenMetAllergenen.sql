@@ -6,6 +6,7 @@
 -- 01            13-02-2026      Generated                   New
 -- 02            13-02-2026      Fixed                       Fixed filter logic
 -- **********************************************************************************/
+USE laravel;
 
 DROP PROCEDURE IF EXISTS sp_ProductenMetAllergenen;
 
@@ -34,8 +35,8 @@ BEGIN
         LEFT JOIN ProductPerLeverancier ppl ON p.Id = ppl.ProductId
         LEFT JOIN Leverancier l ON ppl.LeverancierId = l.Id
         WHERE a.IsActief = 1
-        GROUP BY 
-            p.Id, p.Naam, p.Barcode, m.AantalAanwezig, 
+        GROUP BY
+            p.Id, p.Naam, p.Barcode, m.AantalAanwezig,
             l.Naam, l.ContactPersoon, l.Mobiel, l.LeverancierNummer
         ORDER BY p.Naam ASC;
     ELSE
@@ -58,8 +59,8 @@ BEGIN
         LEFT JOIN Leverancier l ON ppl.LeverancierId = l.Id
         WHERE ppa.AllergeenId = p_AllergeenId
           AND a.IsActief = 1
-        GROUP BY 
-            p.Id, p.Naam, p.Barcode, m.AantalAanwezig, 
+        GROUP BY
+            p.Id, p.Naam, p.Barcode, m.AantalAanwezig,
             l.Naam, l.ContactPersoon, l.Mobiel, l.LeverancierNummer
         ORDER BY p.Naam ASC;
     END IF;

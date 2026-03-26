@@ -87,6 +87,34 @@ INSERT INTO `Product` (`Naam`, `Barcode`) VALUES
 ('Zoute Ruitjes', '8719587323256'),
 ('Drop ninja''s', '8719587323277');
 
+
+-- Step: 05b
+-- Goal: Create table ProductEinddatumLevering (nodig voor uit-assortiment flow)
+-- **********************************************************************************/
+
+CREATE TABLE IF NOT EXISTS `ProductEinddatumLevering` (
+  `Id`                 TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `ProductId`          TINYINT UNSIGNED NOT NULL,
+  `EinddatumLevering`  DATE             NOT NULL,
+  `IsActief`           BIT              NOT NULL DEFAULT b'1',
+  `Opmerkingen`        VARCHAR(250)              DEFAULT NULL,
+  `DatumAangemaakt`    DATETIME(6)      NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `DatumGewijzigd`     DATETIME(6)      NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+  CONSTRAINT `PK_ProductEinddatumLevering_Id` PRIMARY KEY (`Id`),
+  CONSTRAINT `FK_ProductEinddatumLevering_Product` FOREIGN KEY (`ProductId`) REFERENCES `Product`(`Id`),
+  CONSTRAINT `UQ_ProductEinddatumLevering_Product` UNIQUE (`ProductId`)
+) ENGINE=InnoDB;
+
+INSERT INTO `ProductEinddatumLevering` (`Id`, `ProductId`, `EinddatumLevering`) VALUES
+ (1, 1,  '2024-06-01'),
+ (2, 2,  '2024-05-22'),
+ (3, 3,  '2026-01-01'),
+ (4, 4,  '2024-05-12'),
+ (5, 7,  '2024-05-27'),
+ (6, 10, '2024-05-03'),
+ (7, 11, '2024-02-09'),
+ (8, 14, '2024-01-01');
+
     -- Step: 06
 -- Goal: Create a new table Magazijn
 -- **********************************************************************************
@@ -315,7 +343,7 @@ CREATE TABLE IF NOT EXISTS `Levering` (
 -- *******       **********      ****************            ******************
 -- 01            18-09-2025      Odi Matar                   New
 -- **********************************************************************************/
-	
+
 
   INSERT INTO `Levering` (`ProductId`,`LeverancierId`,`DatumLaatste`,`Aantal`,`VerwachteEerstvolgende`)
 VALUES
@@ -373,4 +401,4 @@ VALUES ('Demo', 'demo@example.com',
 
 
 
-   
+

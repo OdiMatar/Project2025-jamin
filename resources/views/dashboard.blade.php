@@ -8,6 +8,10 @@
         </div>
 
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+            <a href="{{ route('assortiment.overzicht') }}" wire:navigate
+                class="rounded-xl border border-neutral-200 bg-white p-4 text-center text-sm font-medium text-neutral-900 transition hover:border-blue-500 hover:text-blue-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:border-blue-400 dark:hover:text-blue-300">
+                Overzicht producten uit het assortiment
+            </a>
             <a href="{{ route('leveringen.overzicht') }}" wire:navigate
                 class="rounded-xl border border-neutral-200 bg-white p-4 text-center text-sm font-medium text-neutral-900 transition hover:border-blue-500 hover:text-blue-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:border-blue-400 dark:hover:text-blue-300">
                 Overzicht geleverde producten

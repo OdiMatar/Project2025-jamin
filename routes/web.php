@@ -8,6 +8,7 @@ use App\Http\Controllers\AllergeenController;
 use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\ProductDeliveryController;
+use App\Http\Controllers\ProductOutOfAssortmentController;
 use App\Http\Controllers\LeverantieInfoController;
 use App\Http\Controllers\ProductAllergeenController;
 use App\Http\Controllers\LeverancierController;
@@ -90,6 +91,18 @@ Route::middleware(['auth'])->group(function () {
     // Userstory 1 – Overzicht geleverde producten
     Route::get('/overzicht-geleverde-producten', [ProductDeliveryController::class, 'index'])
         ->name('leveringen.overzicht');
+
+    // Userstory 1 - Overzicht producten uit het assortiment
+    Route::get('/overzicht-producten-uit-assortiment', [ProductOutOfAssortmentController::class, 'index'])
+        ->name('assortiment.overzicht');
+
+    Route::get('/overzicht-producten-uit-assortiment/product/{product}', [ProductOutOfAssortmentController::class, 'show'])
+        ->whereNumber('product')
+        ->name('assortiment.product.show');
+
+    Route::post('/overzicht-producten-uit-assortiment/product/{product}/verwijder', [ProductOutOfAssortmentController::class, 'destroy'])
+        ->whereNumber('product')
+        ->name('assortiment.product.destroy');
 });
 
 

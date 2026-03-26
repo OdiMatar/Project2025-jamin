@@ -252,6 +252,8 @@
                         class="bi bi-exclamation-triangle"></i> Overzicht Allergenen</a>
                 <a href="{{ route('leveringen.overzicht') }}" class="nav-link-chip"><i class="bi bi-truck"></i>
                     Overzicht geleverde producten</a>
+                <a href="{{ route('assortiment.overzicht') }}" class="nav-link-chip"><i class="bi bi-x-circle"></i>
+                    Overzicht uit assortiment</a>
                 <a href="{{ route('allergeen.index') }}" class="nav-link-chip"><i class="bi bi-grid-3x3-gap"></i>
                     Allergenen</a>
                 <a href="{{ route('magazijn.index') }}" class="nav-link-chip"><i class="bi bi-box"></i> Magazijn</a>

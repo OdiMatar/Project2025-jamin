@@ -156,6 +156,8 @@
             <p>Beheer eenvoudig je magazijn, allergenen en leveringen vanuit één centrale omgeving.</p>
 
             <div class="buttons">
+                <a href="{{ route('assortiment.overzicht') }}" class="btn btn-alt btn-lg">Overzicht producten uit het
+                    assortiment</a>
                 <a href="{{ route('allergeen.producten.overzicht') }}" class="btn btn-alt btn-lg">Overzicht
                     Allergenen</a>
                 <a href="{{ route('leveringen.overzicht') }}" class="btn btn-brand btn-lg">Overzicht geleverde

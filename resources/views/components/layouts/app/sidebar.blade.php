@@ -14,6 +14,7 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item :href="route('assortiment.overzicht')" :current="request()->routeIs('assortiment.*')" wire:navigate>{{ __('Overzicht uit assortiment') }}</flux:navlist.item>
                     <flux:navlist.item :href="route('allergeen.producten.overzicht')" :current="request()->routeIs('allergeen.producten.overzicht')" wire:navigate>{{ __('Overzicht Allergenen') }}</flux:navlist.item>
                     <flux:navlist.item :href="route('allergeen.index')" :current="request()->routeIs('allergeen.index') || request()->routeIs('allergeen.create') || request()->routeIs('allergeen.edit') || request()->routeIs('allergeen.show')" wire:navigate>{{ __('Allergenen') }}</flux:navlist.item>
                     <flux:navlist.item :href="route('magazijn.index')" :current="request()->routeIs('magazijn.*')" wire:navigate>{{ __('Magazijn') }}</flux:navlist.item>
